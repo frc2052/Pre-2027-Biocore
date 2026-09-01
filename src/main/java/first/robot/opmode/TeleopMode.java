@@ -4,16 +4,16 @@
 
 package first.robot.opmode;
 
+import first.robot.Robot;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.opmode.Teleop;
-import first.robot.Robot;
 
 @Teleop
-public class MyTeleop extends PeriodicOpMode {
+public class TeleopMode extends PeriodicOpMode {
   private final Robot robot;
 
   /** The Robot instance is passed into the opmode via the constructor. */
-  public MyTeleop(Robot robot) {
+  public TeleopMode(Robot robot) {
     this.robot = robot;
   }
 
