@@ -17,9 +17,13 @@ public abstract class PeriodicMechanism extends Mechanism {
     mechanisms.add(this);
   }
 
+  /* Please note that the recommended (but not required) order is: input, log, output */
+
   public abstract void inputPeriodic();
 
   public abstract void outputPeriodic();
+
+  public abstract void loggingPeriodic();
 
   /**
    * Runs all mechanism inputPeriodic functions. needs to be called in Robot Periodic OR Registered
@@ -38,6 +42,16 @@ public abstract class PeriodicMechanism extends Mechanism {
   public static void runAllOutputPeriodics() {
     for (PeriodicMechanism mechanism : mechanisms) {
       mechanism.outputPeriodic();
+    }
+  }
+
+  /**
+   * Runs all mechanism loggingPeriodic functions. needs to be called in Robot Periodic OR Registered
+   * as a periodic function.
+   */
+  public static void runAllLoggingPeriodics() {
+    for (PeriodicMechanism mechanism : mechanisms) {
+      mechanism.loggingPeriodic();
     }
   }
 }

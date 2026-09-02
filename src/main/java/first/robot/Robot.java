@@ -14,11 +14,15 @@ import org.wpilib.framework.OpModeRobot;
  * project.
  */
 public class Robot extends OpModeRobot {
+  private final RobotContainer robotContainer = RobotContainer.getInstance();
+  private String currentOpMode;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  public Robot() {}
+  public Robot() {
+    currentOpMode = super.getOpMode();
+  }
 
   /** This function is called exactly once when the DS first connects. */
   @Override
@@ -30,4 +34,14 @@ public class Robot extends OpModeRobot {
    */
   @Override
   public void nonePeriodic() {}
+
+  @Override
+  public void robotPeriodic() {
+    String opMode = super.getOpMode();
+
+    if (!opMode.equals(currentOpMode)) {
+      robotContainer.configureBindings(opMode);
+      currentOpMode = opMode;
+    }
+  }
 }

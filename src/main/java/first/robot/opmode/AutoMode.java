@@ -8,7 +8,7 @@ import first.robot.Robot;
 import org.wpilib.opmode.Autonomous;
 import org.wpilib.opmode.PeriodicOpMode;
 
-@Autonomous(name = "My Auto", group = "Group 1")
+@Autonomous(name = "Auto", group = "Autos", textColor = "#ff0000")
 public class AutoMode extends PeriodicOpMode {
   private final Robot robot;
 

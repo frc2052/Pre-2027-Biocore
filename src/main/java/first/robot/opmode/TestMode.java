@@ -1,19 +1,16 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package first.robot.opmode;
 
-import first.robot.Robot;
 import org.wpilib.opmode.PeriodicOpMode;
-import org.wpilib.opmode.Teleop;
+import org.wpilib.opmode.Utility;
 
-@Teleop(name = "Match Teleop", textColor = "#00ff51")
-public class TeleopMode extends PeriodicOpMode {
-  private final Robot robot;
+import first.robot.Robot;
+
+@Utility(name = "Testing", textColor = "#a200ff")
+public class TestMode extends PeriodicOpMode{
+    private final Robot robot;
 
   /** The Robot instance is passed into the opmode via the constructor. */
-  public TeleopMode(Robot robot) {
+  public TestMode(Robot robot) {
     this.robot = robot;
   }
 
