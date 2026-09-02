@@ -1,10 +1,11 @@
 package first.robot.opmode;
 
+import first.robot.Constants;
 import first.robot.Robot;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.opmode.Utility;
 
-@Utility(name = "Testing", textColor = "#a200ff")
+@Utility(name = "Testing", textColor = Constants.OpModeColors.UTILITY)
 public class TestMode extends PeriodicOpMode {
   private final Robot robot;
 

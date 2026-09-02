@@ -4,11 +4,12 @@
 
 package first.robot.opmode;
 
+import first.robot.Constants;
 import first.robot.Robot;
 import org.wpilib.opmode.Autonomous;
 import org.wpilib.opmode.PeriodicOpMode;
 
-@Autonomous(name = "Auto", group = "Autos", textColor = "#ff0000")
+@Autonomous(name = "Auto", group = "Autos", textColor = Constants.OpModeColors.AUTO)
 public class AutoMode extends PeriodicOpMode {
   private final Robot robot;
 

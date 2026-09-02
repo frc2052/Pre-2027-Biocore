@@ -4,11 +4,12 @@
 
 package first.robot.opmode;
 
+import first.robot.Constants;
 import first.robot.Robot;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.opmode.Teleop;
 
-@Teleop(name = "Match Teleop", textColor = "#00ff51")
+@Teleop(name = "Match Teleop", textColor = Constants.OpModeColors.MATCH_TELEOP)
 public class TeleopMode extends PeriodicOpMode {
   private final Robot robot;
 

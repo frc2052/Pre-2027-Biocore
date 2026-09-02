@@ -1,5 +1,8 @@
 package first.robot;
 
+import org.wpilib.driverstation.DriverStationErrors;
+import org.wpilib.driverstation.internal.DriverStationBackend;
+
 import com.team2052.lib.input.JoinedCommandJoystick;
 import com.team2052.lib.input.T16000MJoystick;
 
@@ -25,6 +28,18 @@ public class RobotContainer {
   /* IMPORTANT NOTE: When changing opModes, default commands and commands not bound to joystick buttons will NOT reset. If it is important that a certain command is not in effect, please take steps to within the opmode or binding */
 
   public void configureBindings(String opMode) {
+
+    if (!DriverStationBackend.isJoystickConnected(0)) {
+      DriverStationErrors.reportWarning("Translation Joystick not connected or not assigned to port 0", false);
+    }
+
+    if (!DriverStationBackend.isJoystickConnected(1)) {
+      DriverStationErrors.reportWarning("Rotation Joystick not connected or not assigned to port 1", false);
+    }
+
+    if (!DriverStationBackend.isJoystickConnected(2)) {
+      DriverStationErrors.reportWarning("Secondart Panel not connected or not assigned to port 2", false);
+    }
 
     translationJoystick.clearAllButtonBindings();
     rotationJoystick.clearAllButtonBindings();
