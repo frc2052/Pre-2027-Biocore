@@ -2,7 +2,7 @@ package com.team2052.lib.input;
 
 import org.wpilib.command3.Trigger;
 
-public class T16000MJoystick extends ClearableCommandJoystick {
+public class T16000MJoystick extends JoinedCommandJoystick {
   public T16000MJoystick(int port) {
     super(port);
   }

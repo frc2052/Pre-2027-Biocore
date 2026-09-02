@@ -46,7 +46,11 @@ public class Vector2d {
   }
 
   public Angle getDirection() {
-    return Radians.of(vector.getAngle().getRadians());
+    if (vector.getAngle().isPresent()) {
+      return vector.getAngle().get().getMeasure();
+    }
+    // is at 0,0
+    return Radians.of(0);
   }
 
   public double getDotProduct(Vector2d other) {

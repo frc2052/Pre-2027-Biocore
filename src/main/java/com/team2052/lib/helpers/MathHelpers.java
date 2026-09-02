@@ -36,8 +36,8 @@ public class MathHelpers {
   }
 
   /**
-   * Returns the norm of the translational components of a ChassisVelocities object, which is just the
-   * hypotenuse of the x and y velocities.
+   * Returns the norm of the translational components of a ChassisVelocities object, which is just
+   * the hypotenuse of the x and y velocities.
    */
   public static double chassisSpeedsNorm(ChassisVelocities speeds) {
     return Math.hypot(speeds.vx, speeds.vy);
@@ -46,7 +46,8 @@ public class MathHelpers {
   /**
    * Returns the Transform3d with the smaller translation norm.
    *
-   * @see MathHelpers.chassisSpeedsNorm(ChassisVelocities) for how the translation norm is calculated.
+   * @see MathHelpers.chassisSpeedsNorm(ChassisVelocities) for how the translation norm is
+   *     calculated.
    * @param t1
    * @param t2
    * @return smallest transform

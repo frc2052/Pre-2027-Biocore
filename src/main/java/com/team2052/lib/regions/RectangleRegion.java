@@ -1,7 +1,7 @@
 package com.team2052.lib.regions;
 
-import org.wpilib.math.geometry.Rectangle2d;
 import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.shape.Rectangle2d;
 
 public class RectangleRegion implements Region {
   Rectangle2d region;

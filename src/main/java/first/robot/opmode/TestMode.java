@@ -1,13 +1,12 @@
 package first.robot.opmode;
 
+import first.robot.Robot;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.opmode.Utility;
 
-import first.robot.Robot;
-
 @Utility(name = "Testing", textColor = "#a200ff")
-public class TestMode extends PeriodicOpMode{
-    private final Robot robot;
+public class TestMode extends PeriodicOpMode {
+  private final Robot robot;
 
   /** The Robot instance is passed into the opmode via the constructor. */
   public TestMode(Robot robot) {

@@ -16,6 +16,7 @@ import org.wpilib.framework.OpModeRobot;
 public class Robot extends OpModeRobot {
   private final RobotContainer robotContainer = RobotContainer.getInstance();
   private String currentOpMode;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.

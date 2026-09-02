@@ -6,8 +6,8 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import lombok.Getter;
 import lombok.Setter;
-import org.wpilib.math.util.Pair;
 import org.wpilib.units.measure.Frequency;
+import org.wpilib.util.Pair;
 
 public class CANCoderConstants {
   @Getter @Setter public Pair<Integer, CANBus> id;

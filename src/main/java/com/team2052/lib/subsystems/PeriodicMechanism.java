@@ -8,13 +8,19 @@ import org.wpilib.command3.Mechanism;
  * The PeridicMechanism extends {@link Mechanism} to include two periodic functions, inputPeriodic
  * and outputPeriodic.
  */
-public abstract class PeriodicMechanism extends Mechanism {
+public abstract class PeriodicMechanism implements Mechanism {
 
   public static List<PeriodicMechanism> mechanisms = new ArrayList<>();
+  private final String name;
 
   public PeriodicMechanism(String name) {
-    super(name);
+    this.name = name;
     mechanisms.add(this);
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 
   /* Please note that the recommended (but not required) order is: input, log, output */
@@ -46,8 +52,8 @@ public abstract class PeriodicMechanism extends Mechanism {
   }
 
   /**
-   * Runs all mechanism loggingPeriodic functions. needs to be called in Robot Periodic OR Registered
-   * as a periodic function.
+   * Runs all mechanism loggingPeriodic functions. needs to be called in Robot Periodic OR
+   * Registered as a periodic function.
    */
   public static void runAllLoggingPeriodics() {
     for (PeriodicMechanism mechanism : mechanisms) {
