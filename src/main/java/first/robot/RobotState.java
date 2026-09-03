@@ -12,5 +12,7 @@ public class RobotState {
 
   private RobotState() {}
 
-  public void robotStatePeriodicLogging() {}
+  public void robotStateInputPeriodic() {}
+
+  public void robotStateLoggingPeriodic() {}
 }

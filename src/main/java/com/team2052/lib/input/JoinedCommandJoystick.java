@@ -2,7 +2,6 @@ package com.team2052.lib.input;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.wpilib.command3.Scheduler;
 import org.wpilib.command3.Trigger;
 import org.wpilib.command3.button.CommandJoystick;

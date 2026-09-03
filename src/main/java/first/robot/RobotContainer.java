@@ -1,10 +1,9 @@
 package first.robot;
 
-import org.wpilib.driverstation.DriverStationErrors;
-import org.wpilib.driverstation.internal.DriverStationBackend;
-
 import com.team2052.lib.input.JoinedCommandJoystick;
 import com.team2052.lib.input.T16000MJoystick;
+import org.wpilib.driverstation.DriverStationErrors;
+import org.wpilib.driverstation.internal.DriverStationBackend;
 
 public class RobotContainer {
   private static RobotContainer INSTNACE;
@@ -30,15 +29,18 @@ public class RobotContainer {
   public void configureBindings(String opMode) {
 
     if (!DriverStationBackend.isJoystickConnected(0)) {
-      DriverStationErrors.reportWarning("Translation Joystick not connected or not assigned to port 0", false);
+      DriverStationErrors.reportWarning(
+          "Translation Joystick not connected or not assigned to port 0", false);
     }
 
     if (!DriverStationBackend.isJoystickConnected(1)) {
-      DriverStationErrors.reportWarning("Rotation Joystick not connected or not assigned to port 1", false);
+      DriverStationErrors.reportWarning(
+          "Rotation Joystick not connected or not assigned to port 1", false);
     }
 
     if (!DriverStationBackend.isJoystickConnected(2)) {
-      DriverStationErrors.reportWarning("Secondart Panel not connected or not assigned to port 2", false);
+      DriverStationErrors.reportWarning(
+          "Secondart Panel not connected or not assigned to port 2", false);
     }
 
     translationJoystick.clearAllButtonBindings();

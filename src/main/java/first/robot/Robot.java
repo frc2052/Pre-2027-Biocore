@@ -4,6 +4,7 @@
 
 package first.robot;
 
+import com.team2052.lib.subsystems.PeriodicMechanism;
 import org.wpilib.framework.OpModeRobot;
 
 /**
@@ -44,5 +45,11 @@ public class Robot extends OpModeRobot {
       robotContainer.configureBindings(opMode);
       currentOpMode = opMode;
     }
+
+    PeriodicMechanism.runAllInputPeriodics();
+    RobotState.getInstance().robotStateInputPeriodic();
+    PeriodicMechanism.runAllLoggingPeriodics();
+    RobotState.getInstance().robotStateLoggingPeriodic();
+    PeriodicMechanism.runAllOutputPeriodics();
   }
 }
