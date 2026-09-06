@@ -11,8 +11,6 @@ import org.wpilib.driverstation.POVDirection;
 
 public class JoinedCommandJoystick extends CommandJoystick {
 
-  private static final int MAX_NUM_BUTTONS = 64;
-
   private List<Trigger> createdTriggers = new ArrayList<>();
 
   public JoinedCommandJoystick(int port) {
