@@ -11,7 +11,7 @@ import org.wpilib.command3.Mechanism;
 public abstract class PeriodicMechanism implements Mechanism {
 
   public static List<PeriodicMechanism> mechanisms = new ArrayList<>();
-  private final String name;
+  protected final String name;
 
   public PeriodicMechanism(String name) {
     this.name = name;
@@ -60,4 +60,5 @@ public abstract class PeriodicMechanism implements Mechanism {
       mechanism.loggingPeriodic();
     }
   }
+
 }
