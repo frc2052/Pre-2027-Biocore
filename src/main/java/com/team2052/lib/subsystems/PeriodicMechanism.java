@@ -60,5 +60,4 @@ public abstract class PeriodicMechanism implements Mechanism {
       mechanism.loggingPeriodic();
     }
   }
-
 }
