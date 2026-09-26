@@ -374,7 +374,7 @@ public class LimelightCamera {
   }
 
   /**
-   * Gets the tag ID of the primary in-view Aplril Tag.
+   * Gets the tag ID of the primary in-view April Tag.
    *
    * @return The tag ID of the primary in-view April Tag. Returns 0 if no tag is in view.
    */
@@ -495,7 +495,7 @@ public class LimelightCamera {
    * Sets the robot orientation of the Limelight camera.
    *
    * @param rotation The rotation of the robot relative to the field.
-   * @param rotationRate The rotation rate of the robot relative to the field. Is usually unessasary
+   * @param rotationRate The rotation rate of the robot relative to the field. Is usually unnecessary
    *     but could be useful.
    */
   public void setRobotOrientation(Rotation3d rotation, Rotation3d rotationRate) {

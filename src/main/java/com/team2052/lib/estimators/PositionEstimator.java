@@ -2,7 +2,6 @@ package com.team2052.lib.estimators;
 
 import static org.wpilib.units.Units.*;
 
-import com.ctre.phoenix6.Utils;
 import com.team2052.lib.geometry.ChassisJerks;
 import com.team2052.lib.geometry.Vector2d;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.math.linalg.Vector;
 import org.wpilib.math.numbers.N3;
+import org.wpilib.system.Timer;
 import org.wpilib.units.measure.Time;
 import org.wpilib.util.Pair;
 
@@ -158,7 +158,7 @@ public class PositionEstimator {
    */
   @SuppressWarnings("unchecked")
   private void applyAllMeasurements(PoseMeasurement... measurements) {
-    Time newTimestamp = Seconds.of(Utils.getCurrentTimeSeconds());
+    Time newTimestamp = Seconds.of(Timer.getMonotonicTimestamp());
     Time timestep = newTimestamp.minus(lastTimestamp);
 
     PosePrediction newPredictionJump = predictDThree(timestep);
@@ -620,12 +620,11 @@ public class PositionEstimator {
       return false;
     }
 
-    // reject if the standard deviations are high enough. x and y should be with 2.5 meters and
-    // rotation should be within 90 degrees. Otherwise it still has a chance to narrow down the
-    // position of the robot.
-    if (measurement.poseStdDev.get(0) > 2.5
-        && measurement.poseStdDev.get(1) > 2.5
-        && measurement.poseStdDev.get(2) > Math.PI / 2) {
+    // reject if the standard deviations are high enough. x and y should be with 2.5 meters.
+    // Otherwise it still has a chance to narrow down the
+    // position of the robot. We don't care if rotation is super high as we often use that to
+    // prevent feedback loops from MT 2 input systems.
+    if (measurement.poseStdDev.get(0) > 2.5 && measurement.poseStdDev.get(1) > 2.5) {
       return false;
     }
 
