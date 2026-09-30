@@ -5,6 +5,9 @@
 package first.robot;
 
 import com.team2052.lib.subsystems.PeriodicMechanism;
+import com.team2052.lib.util.RobotInfo;
+import first.robot.mechanisms.drive.DrivetrainMechanism;
+import org.wpilib.driverstation.DriverStationDisplay;
 import org.wpilib.framework.OpModeRobot;
 
 /**
@@ -28,7 +31,22 @@ public class Robot extends OpModeRobot {
 
   /** This function is called exactly once when the DS first connects. */
   @Override
-  public void driverStationConnected() {}
+  public void driverStationConnected() {
+    if (RobotInfo.isInMatch()) {
+      String matchName = RobotInfo.getMatchType().toString();
+      matchName = matchName.substring(0, 1) + matchName.substring(1).toLowerCase();
+      DriverStationDisplay.addLine(
+          "Welcome to "
+              + matchName
+              + " Match "
+              + RobotInfo.getMatchNumber()
+              + " at The "
+              + RobotInfo.getEventName()
+              + "!");
+    } else {
+      DriverStationDisplay.addLine("You are now connected to [2027 Biocore Robot Name]");
+    }
+  }
 
   /**
    * This function is called periodically anytime when no opmode is selected, including when the
@@ -46,10 +64,15 @@ public class Robot extends OpModeRobot {
       currentOpMode = opMode;
     }
 
+    DrivetrainMechanism drivetrain = DrivetrainMechanism.getInstance();
+
+    drivetrain.inputPeriodic();
     PeriodicMechanism.runAllInputPeriodics();
     RobotState.getInstance().robotStateInputPeriodic();
+    drivetrain.loggingPeriodic();
     PeriodicMechanism.runAllLoggingPeriodics();
     RobotState.getInstance().robotStateLoggingPeriodic();
+    drivetrain.outputPeriodic();
     PeriodicMechanism.runAllOutputPeriodics();
   }
 }

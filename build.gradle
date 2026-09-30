@@ -126,6 +126,6 @@ spotless {
        trimTrailingWhitespace()
        endWithNewline()
        formatAnnotations()
-
+       indentWithSpaces(4) 
     }
 }

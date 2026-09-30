@@ -6,7 +6,7 @@ import org.wpilib.driverstation.DriverStationErrors;
 import org.wpilib.driverstation.internal.DriverStationBackend;
 
 public class RobotContainer {
-  private static RobotContainer INSTNACE;
+  private static RobotContainer INSTANCE;
 
   public final T16000MJoystick translationJoystick = new T16000MJoystick(0);
   public final T16000MJoystick rotationJoystick = new T16000MJoystick(1);
@@ -14,10 +14,10 @@ public class RobotContainer {
   public final JoinedCommandJoystick secondaryPanel = new JoinedCommandJoystick(2);
 
   public static RobotContainer getInstance() {
-    if (INSTNACE == null) {
-      INSTNACE = new RobotContainer();
+    if (INSTANCE == null) {
+      INSTANCE = new RobotContainer();
     }
-    return INSTNACE;
+    return INSTANCE;
   }
 
   private RobotContainer() {
@@ -40,7 +40,7 @@ public class RobotContainer {
 
     if (!DriverStationBackend.isJoystickConnected(2)) {
       DriverStationErrors.reportWarning(
-          "Secondart Panel not connected or not assigned to port 2", false);
+          "Secondary Panel not connected or not assigned to port 2", false);
     }
 
     translationJoystick.clearAllButtonBindings();

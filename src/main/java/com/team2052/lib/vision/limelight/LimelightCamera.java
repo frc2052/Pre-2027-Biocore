@@ -495,8 +495,8 @@ public class LimelightCamera {
    * Sets the robot orientation of the Limelight camera.
    *
    * @param rotation The rotation of the robot relative to the field.
-   * @param rotationRate The rotation rate of the robot relative to the field. Is usually unnecessary
-   *     but could be useful.
+   * @param rotationRate The rotation rate of the robot relative to the field. Is usually
+   *     unnecessary but could be useful.
    */
   public void setRobotOrientation(Rotation3d rotation, Rotation3d rotationRate) {
     double[] orientationArray =

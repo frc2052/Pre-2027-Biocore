@@ -55,6 +55,7 @@ public class PositionEstimator {
 
   // First in the pair is the last given pose, the second is the updated pose after a new odometry
   // position was assigned. Will be empty when initially assigned.
+  @Getter
   private HashMap<String, Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>>> odometryLastPose =
       new HashMap<>();
 
@@ -285,6 +286,24 @@ public class PositionEstimator {
     double standardDeviation = Math.sqrt(variance);
     double mean = weightedMeanSum / totalPrecision;
     return new Pair<Double, Double>(mean, standardDeviation);
+  }
+
+  /**
+   * Seeds an absolute pose location (Standard Deviation = 0). Assumes robot is at rest.
+   *
+   * @param newPose Pose to seed.
+   */
+  public void seedAtRest(Pose2d newPose) {
+    Vector<N3> emptyVector = VecBuilder.fill(0, 0, 0);
+    seed(
+        newPose,
+        emptyVector,
+        new ChassisVelocities(),
+        emptyVector,
+        new ChassisAccelerations(),
+        emptyVector,
+        new ChassisJerks(),
+        emptyVector);
   }
 
   /**
@@ -666,7 +685,7 @@ public class PositionEstimator {
    * PosePrediction. Is the predicted pose of the robot at some timestep into the future of the last
    * recorded state.
    */
-  public class PosePrediction {
+  public static class PosePrediction {
     /** Pose of the prediction */
     public final Pose2d pose;
 
@@ -735,7 +754,7 @@ public class PositionEstimator {
    * PoseMeasurement. Represents an absolute measurement of the robot pose from a field relative
    * point of view.
    */
-  public class PoseMeasurement {
+  public static class PoseMeasurement {
     public final Pose2d pose;
     public final Vector<N3> poseStdDev;
     public final Time measurementDelay;
@@ -760,7 +779,7 @@ public class PositionEstimator {
    * OdometryMeasurement. Represents a relative measurement of the robot pose from its initial pose.
    * Is field relative.
    */
-  public class OdometryMeasurement {
+  public static class OdometryMeasurement {
     public final PoseMeasurement measurement;
     public final String name;
 
