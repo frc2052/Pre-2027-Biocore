@@ -29,7 +29,7 @@ public class LimelightCamera {
   @Getter private final NetworkTable table;
   @Getter private final LimelightConstants constants;
 
-  LimelightCamera(LimelightConstants cameraConstants) {
+  public LimelightCamera(LimelightConstants cameraConstants) {
     this.cameraName = cameraConstants.limelightName;
     this.constants = cameraConstants;
     this.table = NetworkTableInstance.getDefault().getTable(cameraName);
@@ -577,7 +577,7 @@ public class LimelightCamera {
         botPoseArray[10]);
   }
 
-  public class LimelightConstants {
+  public static class LimelightConstants {
     public String limelightName = "";
     public int defaultPipeline = 0;
     public Pose3d limelightPose = new Pose3d();

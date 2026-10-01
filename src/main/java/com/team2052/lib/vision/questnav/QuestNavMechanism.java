@@ -51,6 +51,14 @@ public class QuestNavMechanism extends PeriodicMechanism {
     return pose.transformBy(constants.questPose.inverse());
   }
 
+  public void seedRobotPose(Pose2d robotPose) {
+    seedQuestPose(new Pose3d(robotPose).transformBy(constants.questPose.inverse()));
+  }
+
+  public void seedQuestPose(Pose3d questPose) {
+    quest.setPose(questPose);
+  }
+
   private void readAllUnreadFrames() {
     for (var frame : quest.getAllUnreadPoseFrames()) {
       if (frame.dataTimestamp() > lastState.dataTimestamp.in(Seconds)) {

@@ -90,7 +90,8 @@ public class PositionEstimator {
     for (OdometryMeasurement om : odometryMeasurements) {
       if (!odometryLastPose.containsKey(om.name)) {
         registerOdometry(om.name, om.measurement.pose);
-        totalMeasurements.add(om.measurement);
+        // Void the first measurement in order to not cause issues after zeroing
+        // totalMeasurements.add(om.measurement);
       } else {
         Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> mapPull = odometryLastPose.get(om.name);
         Pose2d lastPose = mapPull.getFirst();
@@ -330,6 +331,14 @@ public class PositionEstimator {
     seedPose(newPose, newPoseStdDev);
     seedAcceleration(newAcc, newAccStdDev);
     seedJerk(newJerk, newJerkStdDev);
+  }
+
+  /**
+   * Resets all recorded odometries.
+   */
+  public void resetOdometries() {
+    odometryLastPose = new HashMap<>();
+    toUpdate = new ArrayList<>();
   }
 
   /**
