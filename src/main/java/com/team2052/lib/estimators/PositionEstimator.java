@@ -4,6 +4,7 @@ import static org.wpilib.units.Units.*;
 
 import com.team2052.lib.geometry.ChassisJerks;
 import com.team2052.lib.geometry.Vector2d;
+import com.team2052.lib.regions.Region;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,16 +24,18 @@ import org.wpilib.util.Pair;
 public class PositionEstimator {
 
   // Poses represent a vector holding x, y, and theta
-  @Getter public Pose2d lastPose = new Pose2d();
-  @Getter public Vector<N3> lastPoseStdDev = VecBuilder.fill(0, 0, 0);
-  @Getter public ChassisVelocities lastVelocity = new ChassisVelocities();
-  @Getter public Vector<N3> lastVelocityStdDev = VecBuilder.fill(0, 0, 0);
-  @Getter public ChassisAccelerations lastAcceleration = new ChassisAccelerations();
-  @Getter public Vector<N3> lastAccelerationStdDev = VecBuilder.fill(0, 0, 0);
-  @Getter public ChassisJerks lastJerk = new ChassisJerks();
-  @Getter public Vector<N3> lastJerkStdDev = VecBuilder.fill(0, 0, 0);
+  @Getter private Pose2d lastPose = new Pose2d();
+  @Getter private Vector<N3> lastPoseStdDev = VecBuilder.fill(0, 0, 0);
+  @Getter private ChassisVelocities lastVelocity = new ChassisVelocities();
+  @Getter private Vector<N3> lastVelocityStdDev = VecBuilder.fill(0, 0, 0);
+  @Getter private ChassisAccelerations lastAcceleration = new ChassisAccelerations();
+  @Getter private Vector<N3> lastAccelerationStdDev = VecBuilder.fill(0, 0, 0);
+  @Getter private ChassisJerks lastJerk = new ChassisJerks();
+  @Getter private Vector<N3> lastJerkStdDev = VecBuilder.fill(0, 0, 0);
 
-  @Getter public Time lastTimestamp = Seconds.of(0);
+  @Getter private Time lastTimestamp = Seconds.of(0);
+
+  @Getter private final Region fieldRegion;
 
   @Getter
   public PosePrediction lastPredictionJump =
@@ -53,7 +56,8 @@ public class PositionEstimator {
   @Getter public Pose2d lastPredictionError = new Pose2d();
   @Getter public boolean lastUpdateHadValidMeasurements = false;
 
-  // First in the pair is the last given pose, the second is the updated pose after a new odometry
+  // First in the pair is the last given pose, the second is the updated pose
+  // after a new odometry
   // position was assigned. Will be empty when initially assigned.
   @Getter
   private HashMap<String, Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>>> odometryLastPose =
@@ -61,6 +65,10 @@ public class PositionEstimator {
 
   // a list of the odometries to be updated.
   private List<String> toUpdate = new ArrayList<>();
+
+  public PositionEstimator(Region fieldRegion) {
+    this.fieldRegion = fieldRegion;
+  }
 
   /**
    * Registers a new odometry system
@@ -275,7 +283,8 @@ public class PositionEstimator {
     double weightedMeanSum = 0;
     for (Pair<Double, Double> pair : distributionPairs) {
       if (pair.getSecond() == 0) {
-        // 0 standard deviation means absolute certainty. Also avoids a divide by zero error.
+        // 0 standard deviation means absolute certainty. Also avoids a divide by zero
+        // error.
         return pair;
       }
       double precision = 1 / (pair.getSecond() * pair.getSecond());
@@ -333,9 +342,7 @@ public class PositionEstimator {
     seedJerk(newJerk, newJerkStdDev);
   }
 
-  /**
-   * Resets all recorded odometries.
-   */
+  /** Resets all recorded odometries. */
   public void resetOdometries() {
     odometryLastPose = new HashMap<>();
     toUpdate = new ArrayList<>();
@@ -642,17 +649,25 @@ public class PositionEstimator {
     Time measurementTimestamp =
         measurement.measurementReceivedTimestamp.minus(measurement.measurementDelay);
 
-    // check to see if the measurement was taken before our latest timestamp, if so then return
+    // check to see if the measurement was taken before our latest timestamp, if so
+    // then return
     // false.
     if (measurementTimestamp.in(Seconds) <= lastTimestamp.in(Seconds)) {
       return false;
     }
 
-    // reject if the standard deviations are high enough. x and y should be with 2.5 meters.
+    // reject if the standard deviations are high enough. x and y should be with 2.5
+    // meters.
     // Otherwise it still has a chance to narrow down the
-    // position of the robot. We don't care if rotation is super high as we often use that to
+    // position of the robot. We don't care if rotation is super high as we often
+    // use that to
     // prevent feedback loops from MT 2 input systems.
     if (measurement.poseStdDev.get(0) > 2.5 && measurement.poseStdDev.get(1) > 2.5) {
+      return false;
+    }
+
+    // check if the pose is within the field boundaries
+    if (!fieldRegion.isPointInRegion(measurement.pose.getTranslation())) {
       return false;
     }
 

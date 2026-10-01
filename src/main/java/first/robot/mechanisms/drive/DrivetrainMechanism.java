@@ -108,6 +108,10 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
     return new OdometryMeasurement(measurement, "Wheel Odometry");
   }
 
+  public ChassisVelocities getChassisVelocities() {
+    return getStateCopy().Velocity;
+  }
+
   public void inputPeriodic() {}
 
   public void loggingPeriodic() {}

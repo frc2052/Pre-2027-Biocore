@@ -1,16 +1,19 @@
 package first.robot;
 
 import com.team2052.lib.estimators.PositionEstimator;
-
 import first.robot.mechanisms.drive.DrivetrainMechanism;
 import first.robot.mechanisms.vision.VisionMechanism;
+import first.robot.utils.FieldConstants;
 import lombok.Getter;
 import org.wpilib.math.geometry.Pose2d;
 
 public class RobotState {
   private static RobotState INSTANCE;
 
-  @Getter private PositionEstimator estimator = new PositionEstimator();
+  @Getter
+  private PositionEstimator estimator =
+      new PositionEstimator(FieldConstants.FieldRegions.FULL_FIELD);
+
   @Getter private Pose2d autoStartPose = new Pose2d();
 
   public static RobotState getInstance() {

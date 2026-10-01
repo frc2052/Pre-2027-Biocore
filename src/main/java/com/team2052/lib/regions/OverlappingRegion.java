@@ -5,10 +5,10 @@ import org.wpilib.math.geometry.Translation2d;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CombinedRegion implements Region {
+public class OverlappingRegion implements Region {
   @Getter @Setter private Region[] regions;
 
-  public CombinedRegion(Region... regions) {
+  public OverlappingRegion(Region... regions) {
     this.regions = regions;
   }
 
@@ -22,10 +22,10 @@ public class CombinedRegion implements Region {
   @Override
   public boolean isPointInRegion(Translation2d point) {
     for (Region region : regions) {
-      if (region.isPointInRegion(point)) {
-        return true;
+      if (region.isPointOutsideRegion(point)) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 }

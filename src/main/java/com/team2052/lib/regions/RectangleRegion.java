@@ -3,8 +3,11 @@ package com.team2052.lib.regions;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.shape.Rectangle2d;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class RectangleRegion implements Region {
-  Rectangle2d region;
+  @Getter @Setter private Rectangle2d region;
 
   public RectangleRegion(Rectangle2d region) {
     this.region = region;
