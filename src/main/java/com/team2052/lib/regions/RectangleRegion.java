@@ -1,10 +1,9 @@
 package com.team2052.lib.regions;
 
-import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.math.shape.Rectangle2d;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.shape.Rectangle2d;
 
 public class RectangleRegion implements Region {
   @Getter @Setter private Rectangle2d region;

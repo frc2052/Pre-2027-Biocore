@@ -7,7 +7,9 @@ package first.robot;
 import com.team2052.lib.subsystems.PeriodicMechanism;
 import com.team2052.lib.util.RobotInfo;
 import first.robot.mechanisms.drive.DrivetrainMechanism;
+import first.robot.utils.FieldConstants;
 import org.wpilib.driverstation.DriverStationDisplay;
+import org.wpilib.fields.Fields;
 import org.wpilib.framework.OpModeRobot;
 
 /**
@@ -27,6 +29,10 @@ public class Robot extends OpModeRobot {
    */
   public Robot() {
     currentOpMode = super.getOpMode();
+    Fields loadingConstants = FieldConstants.FIELD;
+    DriverStationDisplay.addKeyedLine(
+        "Loading Constants",
+        "Loading field constants to parse JSON: " + loadingConstants.toString());
   }
 
   /** This function is called exactly once when the DS first connects. */
@@ -35,7 +41,8 @@ public class Robot extends OpModeRobot {
     if (RobotInfo.isInMatch()) {
       String matchName = RobotInfo.getMatchType().toString();
       matchName = matchName.substring(0, 1) + matchName.substring(1).toLowerCase();
-      DriverStationDisplay.addLine(
+      DriverStationDisplay.addKeyedLine(
+          "Connection",
           "Welcome to "
               + matchName
               + " Match "
@@ -44,7 +51,8 @@ public class Robot extends OpModeRobot {
               + RobotInfo.getEventName()
               + "!");
     } else {
-      DriverStationDisplay.addLine("You are now connected to [2027 Biocore Robot Name]");
+      DriverStationDisplay.addKeyedLine(
+          "Connection", "You are now connected to [2027 Biocore Robot Name].");
     }
   }
 

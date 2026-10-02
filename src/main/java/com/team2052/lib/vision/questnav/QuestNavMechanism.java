@@ -30,8 +30,10 @@ public class QuestNavMechanism extends PeriodicMechanism {
     addBatteryFlagWarning(10);
     addBatteryFlagWarning(5);
 
-    quest.onConnected(() -> DriverStationDisplay.addLine("Quest Nav Connected"));
-    quest.onDisconnected(() -> DriverStationErrors.reportWarning("Quest Nac Disconnected", false));
+    quest.onConnected(
+        () -> DriverStationDisplay.addKeyedLine("Quest Nav Connection", "Quest Nav Connected"));
+    quest.onDisconnected(
+        () -> DriverStationDisplay.addKeyedLine("Quest Nav Connection", "Quest Nav Disconnected"));
   }
 
   protected void addBatteryFlagWarning(int cutoff) {

@@ -2,11 +2,10 @@ package com.team2052.lib.regions;
 
 import static org.wpilib.units.Units.Meters;
 
-import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.units.measure.Distance;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.units.measure.Distance;
 
 public class CircleRegion implements Region {
   @Getter @Setter private Translation2d center;

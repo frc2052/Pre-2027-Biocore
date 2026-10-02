@@ -10,9 +10,8 @@ import org.wpilib.math.geometry.Pose2d;
 public class RobotState {
   private static RobotState INSTANCE;
 
-  @Getter
-  private PositionEstimator estimator =
-      new PositionEstimator(FieldConstants.FieldRegions.FULL_FIELD);
+  @Getter private PositionEstimator estimator =
+      new PositionEstimator(FieldConstants.FieldRegions.VALID_ROBOT_POSE_REGION);
 
   @Getter private Pose2d autoStartPose = new Pose2d();
 
