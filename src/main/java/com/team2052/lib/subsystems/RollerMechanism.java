@@ -24,7 +24,7 @@ import org.wpilib.units.measure.Voltage;
 /**
  * The RollerMechanism (previously RollerSubsystem) is an abstract class designed to be the
  * superclass of any other roller mechanisms. Generally, these other mechanisms can be things like
- * intake rollers, shooter rollers, or feeder rollers. If defining a mechinism that, when it boils
+ * intake rollers, shooter rollers, or feeder rollers. If defining a mechanism that, when it boils
  * down to a motor running at a set velocity, this class is defined to be an abstraction of it.
  */
 public abstract class RollerMechanism extends PeriodicMechanism {
@@ -181,7 +181,7 @@ public abstract class RollerMechanism extends PeriodicMechanism {
    * Sets the goal velocity of the roller motors with {@link MotionMagicVelocityTorqueCurrentFOC}
    * control system.
    *
-   * @param goalVelocity the goal {@link AngularVelocity}. Is clamped to the max angualr velocity
+   * @param goalVelocity the goal {@link AngularVelocity}. Is clamped to the max angular velocity
    *     provided in the provided constants.
    */
   public void setGoalVelocityMotionMagic(AngularVelocity goalVelocity) {
@@ -221,7 +221,7 @@ public abstract class RollerMechanism extends PeriodicMechanism {
    * Runs the roller motors through the {@link DutyCycleOut} control mode.
    *
    * @param output The percent output. Limited between -1 and 1. Percent is applied to supply
-   *     voltage and such will NOT allow for a consistant way to run the motors at a set velocity.
+   *     voltage and such will NOT allow for a consistent way to run the motors at a set velocity.
    */
   public void setOpenLoop(double output) {
     leader.setControl(new DutyCycleOut(output).withEnableFOC(true));

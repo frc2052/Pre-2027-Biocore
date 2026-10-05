@@ -19,7 +19,7 @@ import org.wpilib.units.measure.AngularVelocity;
 /**
  * The ServoMechanism (previously ServeSubsystem) is an abstract class designed to be the superclass
  * of any other servo/positional mechanisms. Generally, these other mechanisms can be things like
- * intake pivots, elevators, or shooter hoods. If defining a mechinism that, when it boils down to a
+ * intake pivots, elevators, or shooter hoods. If defining a mechanism that, when it boils down to a
  * motor running to a set position, this class is defined to be an abstraction of it.
  */
 public abstract class ServoMechanism extends PeriodicMechanism {
@@ -171,7 +171,7 @@ public abstract class ServoMechanism extends PeriodicMechanism {
   }
 
   /**
-   * Set the leader motor's encoder position to a specific {@link Angle}. This effectivly "zeros"
+   * Set the leader motor's encoder position to a specific {@link Angle}. This effectively "zeros"
    * the encoder.
    *
    * @param angle The {@link Angle} to set the encoder to

@@ -8,6 +8,7 @@ public abstract interface Region {
 
   /**
    * Checks if the given point is inside the region.
+   *
    * @param point The point to check.
    * @return True if the point is inside the region, false otherwise.
    */
@@ -34,6 +35,7 @@ public abstract interface Region {
 
   /**
    * Creates a new region that represents the union of this region and the given regions.
+   *
    * @param regions to union with this region.
    * @return The new region representing the union of this region and the given regions.
    */
@@ -43,6 +45,7 @@ public abstract interface Region {
 
   /**
    * Creates a new region that represents the intersection of this region and the given regions.
+   *
    * @param regions to intersect with this region.
    * @return The new region representing the intersection of this region and the given regions.
    */
@@ -52,6 +55,7 @@ public abstract interface Region {
 
   /**
    * Creates a new region that represents the difference of this region and the given regions.
+   *
    * @param regions to subtract from this region.
    * @return The new region representing the difference of this region and the given regions.
    */
@@ -84,6 +88,7 @@ public abstract interface Region {
 
   /**
    * Gets the inverse of the given region.
+   *
    * @param region The region to get the inverse of.
    * @return The inverse of the given region.
    */
@@ -92,7 +97,9 @@ public abstract interface Region {
   }
 
   /**
-   * Gets the union of the given regions. This region will contain all points that are inside at least one of the given regions.
+   * Gets the union of the given regions. This region will contain all points that are inside at
+   * least one of the given regions.
+   *
    * @param regions The regions to union.
    * @return The union of the given regions.
    */
@@ -101,7 +108,9 @@ public abstract interface Region {
   }
 
   /**
-   * Gets the intersection of the given regions. This region will contain all points that are inside all of the given regions.
+   * Gets the intersection of the given regions. This region will contain all points that are inside
+   * all of the given regions.
+   *
    * @param regions The regions to intersect.
    * @return The intersection of the given regions.
    */
@@ -110,7 +119,9 @@ public abstract interface Region {
   }
 
   /**
-   * Gets the difference of the given regions. This region will contain all points that are inside at only one of the given regions.
+   * Gets the difference of the given regions. This region will contain all points that are inside
+   * at only one of the given regions.
+   *
    * @param regions to get the difference of.
    * @return The difference of the given regions.
    */
