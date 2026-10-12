@@ -4,6 +4,10 @@ import static org.wpilib.units.Units.Seconds;
 
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.team2052.lib.estimators.PositionEstimator.OdometryMeasurement;
 import com.team2052.lib.estimators.PositionEstimator.PoseMeasurement;
 import com.team2052.lib.util.RobotInfo;
@@ -13,11 +17,13 @@ import first.robot.mechanisms.drive.ctre.generated.TunerConstants.TunerSwerveDri
 import java.util.function.Supplier;
 import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
+import org.wpilib.driverstation.*;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.math.linalg.Vector;
 import org.wpilib.math.numbers.N3;
+import org.wpilib.system.DataLogManager;
 import org.wpilib.system.Timer;
 
 public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechanism {
@@ -26,6 +32,11 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
       new SwerveRequest.ApplyRobotVelocity();
 
   private RobotState robotState = RobotState.getInstance();
+
+  private ChassisVelocities autoTargetSpeeds = new ChassisVelocities();
+
+  private final SwerveRequest.ApplyRobotVelocity autoSwerveRequest =
+      new SwerveRequest.ApplyRobotVelocity().withVelocity(autoTargetSpeeds);
 
   private boolean hasAppliedOperatorPerspective = false;
 
@@ -50,8 +61,31 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
   }
 
   private void configureAutoBuilder() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'configureAutoBuilder'");
+    try {
+      var config = RobotConfig.fromGUISettings();
+      AutoBuilder.configure(
+          () -> getState().Pose, // Current Pose supplier
+          this::resetPose, // Consumer, seeds pose agains auto
+          () -> getState().Velocity, // Current Speeds Supplier
+          // Consumer of ChassisSpeeds and feedforwards to drive the robot
+          (speeds, feedforwards) -> {
+            autoTargetSpeeds = speeds;
+            setControl(
+                autoSwerveRequest
+                    .withVelocity(speeds)
+                    .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+                    .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons()));
+          },
+          new PPHolonomicDriveController(
+              // TODO: tune auto PIDs
+              new PIDConstants(5, 0, 0), new PIDConstants(3.5, 0, 0)),
+          config,
+          () ->
+              (MatchState.getAlliance().get()
+                  == Alliance.RED)); // Drivetrain Subsystem for requirements
+    } catch (Exception e) {
+      DataLogManager.log("Failed to configure AutoBuilder" + e.getStackTrace());
+    }
   }
 
   /**
