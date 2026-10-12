@@ -3,8 +3,9 @@ package com.team2052.lib.vision.questnav;
 import static org.wpilib.units.Units.*;
 
 import com.questnav.QuestNav;
-import com.team2052.lib.helpers.CommandBuilder;
-import com.team2052.lib.subsystems.PeriodicMechanism;
+import com.team2052.lib.commands.CommandBuilder;
+import com.team2052.lib.mechanisms.PeriodicMechanism;
+
 import lombok.Getter;
 import org.wpilib.command3.Trigger;
 import org.wpilib.driverstation.DriverStationDisplay;

@@ -1,4 +1,4 @@
-package com.team2052.lib.subsystems;
+package com.team2052.lib.mechanisms;
 
 import static org.wpilib.units.Units.*;
 

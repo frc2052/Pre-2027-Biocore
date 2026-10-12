@@ -4,7 +4,7 @@
 
 package first.robot;
 
-import com.team2052.lib.subsystems.PeriodicMechanism;
+import com.team2052.lib.mechanisms.PeriodicMechanism;
 import com.team2052.lib.util.RobotInfo;
 import first.robot.mechanisms.drive.DrivetrainMechanism;
 import first.robot.utils.FieldConstants;

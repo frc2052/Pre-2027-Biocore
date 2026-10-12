@@ -4,7 +4,6 @@
 
 package first.robot.opmode;
 
-import com.team2052.lib.helpers.CommandBuilder;
 import first.robot.Constants;
 import first.robot.Robot;
 import first.robot.RobotState;
@@ -14,6 +13,8 @@ import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.opmode.Autonomous;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.util.Pair;
+
+import com.team2052.lib.commands.CommandBuilder;
 
 @Autonomous(name = "Auto", group = "Autos", textColor = Constants.OpModeColors.AUTO)
 public class AutoMode extends PeriodicOpMode {

@@ -13,6 +13,7 @@ import first.robot.mechanisms.drive.ctre.generated.TunerConstants.TunerSwerveDri
 import java.util.function.Supplier;
 import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
+import org.wpilib.command3.NeedsNameBuilderStage;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.linalg.VecBuilder;
@@ -55,19 +56,19 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
   }
 
   /**
-   * Command that continually applies {@link SwerveRequest} to the drivetrain
+   * Command predecessor that continually applies {@link SwerveRequest} to the
+   * drivetrain
    *
    * @param requestSupplier supplier of {@link SwerveRequest}
-   * @return The {@link Command}
+   * @return The {@link NeedsNameBuilderStage} for a command.
    */
-  public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
+  public NeedsNameBuilderStage applyRequest(Supplier<SwerveRequest> requestSupplier) {
     return run(coroutine -> {
           while (true) {
             setControl(requestSupplier.get());
             coroutine.yield();
           }
-        })
-        .named("Apply Swerve Request");
+        });
   }
 
   /** Stops the drivetrain */

@@ -44,4 +44,10 @@ public class DrivetrainConstants {
   public static final double ANGLE_STDDEV_COEFFICIENT = 1;
 
   public static final Angle HEADING_TOLERANCE = Degrees.of(3);
+
+  public static final double DRIVE_DEADBAND = 0.05;
+
+  // TODO: adjust these tolerances based on actual drivetrain performance
+  public static final Distance XY_TOLERANCE = Centimeters.of(5);
+  public static final Angle ROTATION_TOLERANCE = Degrees.of(3);
 }

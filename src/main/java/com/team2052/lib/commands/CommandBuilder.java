@@ -1,8 +1,12 @@
-package com.team2052.lib.helpers;
+package com.team2052.lib.commands;
 
 import static org.wpilib.units.Units.Seconds;
 
+import java.util.function.Consumer;
+
 import org.wpilib.command3.Command;
+import org.wpilib.command3.Coroutine;
+import org.wpilib.command3.Mechanism;
 import org.wpilib.command3.NeedsNameBuilderStage;
 import org.wpilib.units.measure.Time;
 
@@ -50,5 +54,28 @@ public class CommandBuilder {
    */
   public static Command wait(double seconds) {
     return Command.waitFor(Seconds.of(seconds)).named("Wait for " + seconds + " seconds");
+  }
+
+  /**
+   * Creates a command with no mechanism requirements.
+   * 
+   * @param name The name of the command
+   * @param body The body of the command, executed by the coroutine
+   * @return A command with no mechanism requirements and the specified name and body
+   */
+  public static Command create(String name, Consumer<Coroutine> body) {
+    return Command.noRequirements(body).named(name);
+  }
+
+  /**
+   * Creates a command requiring the given mechanism(s).
+   *
+   * @param mechanism The mechanism(s) required by the command
+   * @param name The name of the command
+   * @param body The body of the command, executed by the coroutine
+   * @return A command requiring the specified mechanism(s) with the given name and body
+   */
+  public static Command create(Mechanism mechanism, String name, Consumer<Coroutine> body) {
+    return Command.requiring(mechanism).executing(body).named(name);
   }
 }
