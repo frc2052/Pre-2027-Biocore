@@ -2,6 +2,9 @@ package first.robot.mechanisms.drive;
 
 import static org.wpilib.units.Units.*;
 
+import com.team2052.lib.util.FeedForwardConfiguration;
+import com.team2052.lib.util.PIDConfiguration;
+import com.team2052.lib.util.PIDFFConfiguration;
 import first.robot.mechanisms.drive.ctre.CommandSwerveDrivetrain;
 import first.robot.mechanisms.drive.ctre.generated.TunerConstants;
 import org.wpilib.math.linalg.VecBuilder;
@@ -50,4 +53,16 @@ public class DrivetrainConstants {
   // TODO: adjust these tolerances based on actual drivetrain performance
   public static final Distance XY_TOLERANCE = Centimeters.of(5);
   public static final Angle ROTATION_TOLERANCE = Degrees.of(3);
+
+  public static final PIDFFConfiguration XY_PIDFF;
+  public static final PIDFFConfiguration ROTATION_PIDFF;
+
+  static {
+    XY_PIDFF =
+        new PIDFFConfiguration(
+            new PIDConfiguration(0, 0, 0, 0, 0), new FeedForwardConfiguration(0, 0, 0));
+    ROTATION_PIDFF =
+        new PIDFFConfiguration(
+            new PIDConfiguration(0, 0, 0, 0, 0), new FeedForwardConfiguration(0, 0, 0));
+  }
 }

@@ -56,14 +56,14 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
   }
 
   /**
-   * Command predecessor that continually applies {@link SwerveRequest} to the
-   * drivetrain
+   * Command predecessor that continually applies {@link SwerveRequest} to the drivetrain
    *
    * @param requestSupplier supplier of {@link SwerveRequest}
    * @return The {@link NeedsNameBuilderStage} for a command.
    */
   public NeedsNameBuilderStage applyRequest(Supplier<SwerveRequest> requestSupplier) {
-    return run(coroutine -> {
+    return run(
+        coroutine -> {
           while (true) {
             setControl(requestSupplier.get());
             coroutine.yield();
