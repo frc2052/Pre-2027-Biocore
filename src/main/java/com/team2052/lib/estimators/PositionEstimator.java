@@ -124,6 +124,9 @@ public class PositionEstimator {
                 newStdDev,
                 om.measurement.measurementDelay,
                 om.measurement.measurementReceivedTimestamp));
+        
+        Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> mapPush = new Pair<>(om.measurement.pose, Optional.empty());
+        odometryLastPose.replace(om.name, mapPush);
       }
 
       toUpdate.add(om.name);
