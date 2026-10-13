@@ -101,6 +101,7 @@ public class PositionEstimator {
         // Void the first measurement in order to not cause issues after zeroing
         // totalMeasurements.add(om.measurement);
       } else {
+        // Converting OdometryMeasurement(s) into PoseMeasurement(s)
         Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> mapPull = odometryLastPose.get(om.name);
         Pose2d lastPose = mapPull.getFirst();
         Pose2d lastEstimation = mapPull.getSecond().get().getFirst();
@@ -157,6 +158,7 @@ public class PositionEstimator {
       Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> mapPair = odometryLastPose.get(name);
       Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> newPair =
           new Pair<>(mapPair.getFirst(), Optional.of(new Pair<>(lastPose, lastPoseStdDev)));
+      // TODO: fix, seems like we constantly use the original reference pose?
       odometryLastPose.replace(name, newPair);
     }
   }
@@ -273,6 +275,15 @@ public class PositionEstimator {
   /**
    * Combines the normal distributions through a bayesian update.
    *
+   * <p>To learn more about bayesian updates, read the following article:
+   * https://www.lesswrong.com/posts/kkYoiPp3CiPG5AK4L/a-visual-explanation-of-bayesian-updating
+   *
+   * <p>If you choose to read this article, imagine each distribtuionPairs input (Pair<Double,
+   * Double>) as a graph: The first value is the mean, and the second value is the standard
+   * deviation. The standard deviation creates either a "skinnier & taller" graph or a "wider &
+   * flatter" graph. The bayesian update will combine all of these graphs into a single graph, which
+   * is the output of this function.
+   *
    * @param distributionPairs Pair where the first is the mean and the second is the standard
    *     deviation.
    * @return the combined distribution.
@@ -281,15 +292,20 @@ public class PositionEstimator {
   private Pair<Double, Double> bayesianUpdate(Pair<Double, Double>... distributionPairs) {
     double totalPrecision = 0;
     double weightedMeanSum = 0;
+
     for (Pair<Double, Double> pair : distributionPairs) {
-      if (pair.getSecond() == 0) {
-        // 0 standard deviation means absolute certainty. Also avoids a divide by zero
-        // error.
+      double measuredValue = pair.getFirst();
+      double stdDev = pair.getSecond();
+
+      if (stdDev == 0) {
+        // 0 standard deviation means absolute certainty.
+        // also avoids a divide by zero error.
         return pair;
       }
-      double precision = 1 / (pair.getSecond() * pair.getSecond());
+
+      double precision = 1 / (Math.pow(stdDev, 2));
       totalPrecision += precision;
-      weightedMeanSum += precision * pair.getFirst();
+      weightedMeanSum += precision * measuredValue;
     }
 
     double variance = 1 / totalPrecision;
@@ -683,23 +699,23 @@ public class PositionEstimator {
    */
   private PoseMeasurement compensateForTime(PoseMeasurement m) {
     double delaySeconds = m.measurementDelay.in(Seconds);
-    double dsq = delaySeconds * delaySeconds * 0.5;
-    double dcb = dsq * delaySeconds / 3;
+    double delaySquared = delaySeconds * delaySeconds * 0.5;
+    double delayCubed = delaySquared * delaySeconds / 3;
 
     Vector<N3> newPoseStdDev =
         VecBuilder.fill(
             m.poseStdDev.get(0)
                 + lastVelocityStdDev.get(0) * delaySeconds
-                + lastAccelerationStdDev.get(0) * dsq
-                + lastJerkStdDev.get(0) * dcb,
+                + lastAccelerationStdDev.get(0) * delaySquared
+                + lastJerkStdDev.get(0) * delayCubed,
             m.poseStdDev.get(1)
                 + lastVelocityStdDev.get(1) * delaySeconds
-                + lastAccelerationStdDev.get(1) * dsq
-                + lastJerkStdDev.get(1) * dcb,
+                + lastAccelerationStdDev.get(1) * delaySquared
+                + lastJerkStdDev.get(1) * delayCubed,
             m.poseStdDev.get(2)
                 + lastVelocityStdDev.get(2) * delaySeconds
-                + lastAccelerationStdDev.get(2) * dsq
-                + lastJerkStdDev.get(2) * dcb);
+                + lastAccelerationStdDev.get(2) * delaySquared
+                + lastJerkStdDev.get(2) * delayCubed);
 
     return new PoseMeasurement(
         m.pose, newPoseStdDev, m.measurementDelay, m.measurementReceivedTimestamp);
