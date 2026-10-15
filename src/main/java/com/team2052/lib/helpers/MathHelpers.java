@@ -121,4 +121,24 @@ public class MathHelpers {
         || difference1 <= epsilon.in(Radians)
         || difference2 <= epsilon.in(Radians));
   }
+
+  public static boolean translation2dEpsilonEquals(
+      Translation2d translation1, Translation2d translation2, double epsilon) {
+    return Math.hypot(
+            translation1.getX() - translation2.getX(), translation1.getY() - translation2.getY())
+        <= epsilon;
+  }
+
+  public static boolean translation2dEpsilonEquals(
+      Translation2d translation1, Translation2d translation2, double epsilonX, double epsilonY) {
+    return epsilonEquals(translation1.getX(), translation2.getX(), epsilonX)
+        && epsilonEquals(translation1.getY(), translation2.getY(), epsilonY);
+  }
+
+  public static boolean pose2dEpsilonEquals(
+      Pose2d pose1, Pose2d pose2, double epsilonXY, Angle epsilonRotation) {
+    return translation2dEpsilonEquals(pose1.getTranslation(), pose2.getTranslation(), epsilonXY)
+        && angleEpsilonEquals(
+            pose1.getRotation().getMeasure(), pose2.getRotation().getMeasure(), epsilonRotation);
+  }
 }

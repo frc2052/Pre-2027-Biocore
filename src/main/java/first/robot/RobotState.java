@@ -25,6 +25,10 @@ public class RobotState {
 
   private RobotState() {}
 
+  public Pose2d getRobotPose() {
+    return estimator.getLastPose();
+  }
+
   public void robotStateInputPeriodic() {}
 
   public void robotStateLoggingPeriodic() {}

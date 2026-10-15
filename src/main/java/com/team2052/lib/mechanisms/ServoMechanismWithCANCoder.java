@@ -1,4 +1,4 @@
-package com.team2052.lib.subsystems;
+package com.team2052.lib.mechanisms;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
