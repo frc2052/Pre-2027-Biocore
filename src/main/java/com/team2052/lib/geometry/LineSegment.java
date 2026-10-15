@@ -119,13 +119,14 @@ public class LineSegment {
 
   /**
    * Gets the closest point on the line segment to the given translation.
+   *
    * @param translation The translation2d to find the closest point on the segment to.
    * @return The closest point on the line segment to the given translation2d.
    */
   public Translation2d getClosestPointOnSegment(Translation2d translation) {
     double dx = end.getX() - start.getX();
     double dy = end.getY() - start.getY();
-    
+
     if (dx == 0 && dy == 0) {
       return start; // Segment is a point
     }
@@ -141,8 +142,10 @@ public class LineSegment {
       double y = start.getY();
       return new Translation2d(x, y);
     }
-    
-    double t = ((translation.getX() - start.getX()) * dx + (translation.getY() - start.getY()) * dy) / (dx * dx + dy * dy);
+
+    double t =
+        ((translation.getX() - start.getX()) * dx + (translation.getY() - start.getY()) * dy)
+            / (dx * dx + dy * dy);
     t = Math.max(0, Math.min(1, t)); // Clamp to the segment
     return new Translation2d(start.getX() + t * dx, start.getY() + t * dy);
   }

@@ -3,6 +3,10 @@ package first.robot.commands.drive.assistive;
 import com.team2052.lib.helpers.MathHelpers;
 import com.team2052.lib.util.PIDFFConfiguration;
 import first.robot.commands.drive.PIDDriveCommand;
+
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.RadiansPerSecond;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -31,7 +35,7 @@ public abstract class AssistiveDriveCommand extends PIDDriveCommand {
     if (!isOverridingX()) {
       return super.getX();
     }
-    double pid = getXPID(getTargetPose().getMeasureX());
+    double pid = getXPID(getTargetPose().getMeasureX()).in(MetersPerSecond) / maxSpeed;
     double controller = super.getControllerX();
     return MathHelpers.clamp(controller + pid, -1, 1);
   }
@@ -41,7 +45,7 @@ public abstract class AssistiveDriveCommand extends PIDDriveCommand {
     if (!isOverridingY()) {
       return super.getY();
     }
-    double pid = getYPID(getTargetPose().getMeasureY());
+    double pid = getYPID(getTargetPose().getMeasureY()).in(MetersPerSecond) / maxSpeed;
     double controller = super.getControllerY();
     return MathHelpers.clamp(controller + pid, -1, 1);
   }
@@ -51,7 +55,7 @@ public abstract class AssistiveDriveCommand extends PIDDriveCommand {
     if (!isOverridingRotation()) {
       return super.getRotation();
     }
-    double pid = getRotationPID(getTargetPose().getRotation().getMeasure());
+    double pid = getRotationPID(getTargetPose().getRotation().getMeasure()).in(RadiansPerSecond) / maxAngularRate;
     double controller = super.getControllerRotation();
     return MathHelpers.clamp(controller + pid, -1, 1);
   }

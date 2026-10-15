@@ -2,8 +2,6 @@ package first.robot.commands.drive;
 
 import static org.wpilib.units.Units.*;
 
-import com.ctre.phoenix6.swerve.SwerveModule;
-import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.team2052.lib.controllers.PIDFFController;
 import com.team2052.lib.util.PIDFFConfiguration;
 import first.robot.RobotState;
@@ -14,14 +12,11 @@ import java.util.function.Supplier;
 import org.wpilib.command3.Command;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.LinearVelocity;
 
 public abstract class PIDDriveCommand extends DefaultDriveCommand {
-
-  protected final SwerveRequest.FieldCentricFacingAngle drive =
-      new SwerveRequest.FieldCentricFacingAngle()
-          .withDeadband(super.maxSpeed * driveDeadband)
-          .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
   protected final Distance xyTolerance;
   protected final Angle rotationTolerance;
@@ -60,7 +55,7 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
     if (!isOverridingX()) {
       return super.getX();
     }
-    return getXPID(getTargetPose().getMeasureX());
+    return getXPID(getTargetPose().getMeasureX()).in(MetersPerSecond) / maxSpeed;
   }
 
   @Override
@@ -68,7 +63,7 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
     if (!isOverridingY()) {
       return super.getY();
     }
-    return getYPID(getTargetPose().getMeasureY());
+    return getYPID(getTargetPose().getMeasureY()).in(MetersPerSecond) / maxSpeed;
   }
 
   @Override
@@ -76,7 +71,7 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
     if (!isOverridingRotation()) {
       return super.getRotation();
     }
-    return getRotationPID(getTargetPose().getRotation().getMeasure());
+    return getRotationPID(getTargetPose().getRotation().getMeasure()).in(RadiansPerSecond) / maxAngularRate;
   }
 
   public abstract boolean isWithinTolerance();
@@ -89,32 +84,32 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
 
   public abstract Pose2d getTargetPose();
 
-  public double getXPID(Distance targetX) {
-    return xyPidff.calculate(robotPoseSupplier.get().getMeasureX().in(Meters), targetX.in(Meters));
+  public LinearVelocity getXPID(Distance targetX) {
+    return MetersPerSecond.of(xyPidff.calculate(robotPoseSupplier.get().getMeasureX().in(Meters), targetX.in(Meters)));
   }
 
-  public double getXPID(double targetX) {
+  public LinearVelocity getXPID(double targetX) {
     return getXPID(Meters.of(targetX));
   }
 
-  public double getYPID(Distance targetY) {
-    return xyPidff.calculate(robotPoseSupplier.get().getMeasureY().in(Meters), targetY.in(Meters));
+  public LinearVelocity getYPID(Distance targetY) {
+    return MetersPerSecond.of(xyPidff.calculate(robotPoseSupplier.get().getMeasureY().in(Meters), targetY.in(Meters)));
   }
 
-  public double getYPID(double targetY) {
+  public LinearVelocity getYPID(double targetY) {
     return getYPID(Meters.of(targetY));
   }
 
-  public double getRotationPID(Angle targetRotation) {
-    return rotationPidff.calculate(
-        robotPoseSupplier.get().getRotation().getRadians(), targetRotation.in(Radians));
+  public AngularVelocity getRotationPID(Angle targetRotation) {
+    return RadiansPerSecond.of(rotationPidff.calculate(
+        robotPoseSupplier.get().getRotation().getRadians(), targetRotation.in(Radians)));
   }
 
-  public double getRotationRadiansPID(double targetRotation) {
+  public AngularVelocity getRotationRadiansPID(double targetRotation) {
     return getRotationPID(Radians.of(targetRotation));
   }
 
-  public double getRotationDegreesPID(double targetRotation) {
+  public AngularVelocity getRotationDegreesPID(double targetRotation) {
     return getRotationPID(Degrees.of(targetRotation));
   }
 

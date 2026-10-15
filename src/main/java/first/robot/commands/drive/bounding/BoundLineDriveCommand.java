@@ -32,7 +32,7 @@ public class BoundLineDriveCommand extends PIDDriveCommand {
     this.targetLineSupplier = targetLineSupplier;
   }
 
-  @Override 
+  @Override
   public double getX() {
     LineSegment line = targetLineSupplier.get();
     double pid = super.getX();
@@ -42,15 +42,20 @@ public class BoundLineDriveCommand extends PIDDriveCommand {
     double dx = line.getEnd().getX() - line.getStart().getX();
     double dy = line.getEnd().getY() - line.getStart().getY();
 
+    // if line is perfectly vertical, the controllerX will never be used so return the PID output.
     if (dx == 0) return pid;
+    // if line is perfectly flat, the controllerY will never be used so return normal controllerX +
+    // PID.
     if (dy == 0) return pid + controllerX;
 
-    double lineSlope = dy/dx;
-    double controllerSlope = controllerY/controllerX;
+    double lineSlope = dy / dx;
+    double controllerSlope = controllerY / controllerX;
 
     if (controllerSlope >= lineSlope) {
+      // Controllers Y is too large, return the PID output + controllerX, will be fixed in getY()
       return pid + controllerX;
     } else {
+      // Controllers X is too large, scale it back to at the ration of controllerY
       return pid + (controllerY * dx / dy);
     }
   }
@@ -65,22 +70,29 @@ public class BoundLineDriveCommand extends PIDDriveCommand {
     double dx = line.getEnd().getX() - line.getStart().getX();
     double dy = line.getEnd().getY() - line.getStart().getY();
 
+    // if line is perfectly vertical, the controllerX will never be used so return normal
+    // controllerY + PID.
     if (dx == 0) return pid + controllerY;
+    // if line is perfectly flat, the controllerY will never be used so return the PID output.
     if (dy == 0) return pid;
 
     double lineSlope = dy / dx;
     double controllerSlope = controllerY / controllerX;
 
     if (controllerSlope >= lineSlope) {
+      // Controllers Y is too large, scale it back to at the ration of controllerX
       return pid + (controllerX * dy / dx);
     } else {
+      // Controllers X is too large, return the PID output + controllerY, will be fixed in getX()
       return pid + controllerY;
     }
   }
 
   @Override
   public boolean isWithinTolerance() {
-    return targetLineSupplier.get().epsilonIsPointOnLine(robotPoseSupplier.get().getTranslation(), xyTolerance.in(Meters));
+    return targetLineSupplier
+        .get()
+        .epsilonIsPointOnLine(robotPoseSupplier.get().getTranslation(), xyTolerance.in(Meters));
   }
 
   @Override
@@ -100,7 +112,8 @@ public class BoundLineDriveCommand extends PIDDriveCommand {
 
   @Override
   public Pose2d getTargetPose() {
-    Translation2d closestPointOnSegment = targetLineSupplier.get().getClosestPointOnSegment(robotPoseSupplier.get().getTranslation());
+    Translation2d closestPointOnSegment =
+        targetLineSupplier.get().getClosestPointOnSegment(robotPoseSupplier.get().getTranslation());
     return new Pose2d(closestPointOnSegment, robotPoseSupplier.get().getRotation());
   }
 }

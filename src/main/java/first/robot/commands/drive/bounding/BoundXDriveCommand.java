@@ -37,7 +37,7 @@ public class BoundXDriveCommand extends PIDDriveCommand {
     return MathHelpers.epsilonEquals(
         targetXSupplier.get(),
         robotPoseSupplier.get().getTranslation().getX(),
-        xyTolerance.in(Meters)); 
+        xyTolerance.in(Meters));
   }
 
   @Override
@@ -57,6 +57,8 @@ public class BoundXDriveCommand extends PIDDriveCommand {
 
   @Override
   public Pose2d getTargetPose() {
-    return new Pose2d(new Translation2d(targetXSupplier.get(), robotPoseSupplier.get().getTranslation().getY()), robotPoseSupplier.get().getRotation());
+    return new Pose2d(
+        new Translation2d(targetXSupplier.get(), robotPoseSupplier.get().getTranslation().getY()),
+        robotPoseSupplier.get().getRotation());
   }
 }

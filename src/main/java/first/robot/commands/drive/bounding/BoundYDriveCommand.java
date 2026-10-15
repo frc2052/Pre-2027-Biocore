@@ -36,8 +36,8 @@ public class BoundYDriveCommand extends PIDDriveCommand {
   public boolean isWithinTolerance() {
     return MathHelpers.epsilonEquals(
         targetYSupplier.get(),
-        robotPoseSupplier.get().getTranslation().getY(), 
-        xyTolerance.in(Meters)); 
+        robotPoseSupplier.get().getTranslation().getY(),
+        xyTolerance.in(Meters));
   }
 
   @Override
@@ -57,6 +57,8 @@ public class BoundYDriveCommand extends PIDDriveCommand {
 
   @Override
   public Pose2d getTargetPose() {
-    return new Pose2d(new Translation2d(robotPoseSupplier.get().getTranslation().getX(), targetYSupplier.get()), robotPoseSupplier.get().getRotation()); 
+    return new Pose2d(
+        new Translation2d(robotPoseSupplier.get().getTranslation().getX(), targetYSupplier.get()),
+        robotPoseSupplier.get().getRotation());
   }
 }

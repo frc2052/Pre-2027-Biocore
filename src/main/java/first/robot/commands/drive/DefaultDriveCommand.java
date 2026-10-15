@@ -32,17 +32,23 @@ public class DefaultDriveCommand implements CommandBase {
       DrivetrainConstants.DRIVE_MAX_ANGULAR_RATE.in(RadiansPerSecond);
   protected final double driveDeadband = DrivetrainConstants.DRIVE_DEADBAND;
 
+  /** Field centric control method that is designed to be derived from joystick inputs */
   protected final SwerveRequest.FieldCentric driveNoHeading =
       new SwerveRequest.FieldCentric()
           .withDeadband(maxSpeed * driveDeadband) // Add a 5% deadband in open loop
           .withRotationalDeadband(maxAngularRate * driveDeadband)
           .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
+  /**
+   * Field centric control method that is derived from {@link
+   * org.wpilib.math.kinematics.ChassisVelocities}
+   */
   protected final SwerveRequest.ApplyFieldVelocity driveChassisVelocities =
       new SwerveRequest.ApplyFieldVelocity()
           .withDesaturateWheelVelocities(true)
           .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
+  /** Robot centric control method */
   protected final SwerveRequest.RobotCentric robotCentricDrive =
       new SwerveRequest.RobotCentric()
           .withDeadband(maxSpeed * driveDeadband)
@@ -50,6 +56,7 @@ public class DefaultDriveCommand implements CommandBase {
           .withDriveRequestType(DriveRequestType.Velocity)
           .withDesaturateWheelVelocities(true);
 
+  /** Field centric control method that inputs a specific heading */
   protected SwerveRequest.FieldCentricFacingAngle driveWithHeading =
       new SwerveRequest.FieldCentricFacingAngle()
           .withDeadband(maxSpeed * driveDeadband)
@@ -59,6 +66,7 @@ public class DefaultDriveCommand implements CommandBase {
    * @param xSupplier supplier for forward velocity.
    * @param ySupplier supplier for sideways velocity.
    * @param rotationSupplier supplier for angular velocity.
+   * @param fieldCentricSupplier supplier for field centric control.
    */
   public DefaultDriveCommand(
       DoubleSupplier xSupplier,
@@ -88,25 +96,47 @@ public class DefaultDriveCommand implements CommandBase {
         });
   }
 
-  // @Override
-  // public void initialize() {}
-
+  /**
+   * Gets the x value that is used to generate the swerve request
+   *
+   * @return the x value
+   */
   protected double getX() {
     return -MathUtil.applyDeadband(xSupplier.getAsDouble(), driveDeadband);
   }
 
+  /**
+   * Gets the y value that is used to generate the swerve request
+   *
+   * @return the y value
+   */
   protected double getY() {
     return -MathUtil.applyDeadband(ySupplier.getAsDouble(), driveDeadband);
   }
 
+  /**
+   * Gets the rotation value that is used to generate the swerve request
+   *
+   * @return the rotation value
+   */
   protected double getRotation() {
     return -MathUtil.applyDeadband(rotationSupplier.getAsDouble(), driveDeadband);
   }
 
+  /**
+   * Gets weather the robot is being driven via field centric or robot centric control.
+   *
+   * @return true if field centric, false if robot centric
+   */
   protected boolean getFieldCentric() {
     return fieldCentricSupplier.getAsBoolean();
   }
 
+  /**
+   * Gets the swerve request based on the current control mode.
+   *
+   * @return the swerve request
+   */
   protected SwerveRequest getSwerveRequest() {
     if (getFieldCentric()) {
       return driveNoHeading
@@ -115,9 +145,9 @@ public class DefaultDriveCommand implements CommandBase {
           .withRotationalRate(getRotation() * maxAngularRate);
     } else {
       return robotCentricDrive
-          .withVelocityX(getX())
-          .withVelocityY(getY())
-          .withRotationalRate(getRotation());
+          .withVelocityX(getX() * maxSpeed)
+          .withVelocityY(getY() * maxSpeed)
+          .withRotationalRate(getRotation() * maxAngularRate);
     }
   }
 }
