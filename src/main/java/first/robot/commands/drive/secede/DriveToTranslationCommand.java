@@ -33,6 +33,20 @@ public class DriveToTranslationCommand extends PIDDriveCommand {
     this.targetTranslationSupplier = targetTranslationSupplier;
   }
 
+  public DriveToTranslationCommand(
+      DoubleSupplier rotationSupplier,
+      BooleanSupplier fieldCentricSupplier,
+      boolean endWhenWithinTolerance,
+      Supplier<Translation2d> targetTranslationSupplier) {
+    this(
+        () -> 0,
+        () -> 0,
+        rotationSupplier,
+        fieldCentricSupplier,
+        endWhenWithinTolerance,
+        targetTranslationSupplier);
+  }
+
   @Override
   public boolean isWithinTolerance() {
     return MathHelpers.translation2dEpsilonEquals(

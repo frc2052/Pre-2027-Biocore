@@ -18,12 +18,12 @@ import org.wpilib.units.measure.LinearVelocity;
 
 public abstract class PIDDriveCommand extends DefaultDriveCommand {
 
-  protected final Distance xyTolerance;
-  protected final Angle rotationTolerance;
-  protected final boolean endWhenWithinTolerance;
+  protected Distance xyTolerance;
+  protected Angle rotationTolerance;
+  protected boolean endWhenWithinTolerance;
 
-  protected final PIDFFController xyPidff;
-  protected final PIDFFController rotationPidff;
+  protected PIDFFController xyPidff;
+  protected PIDFFController rotationPidff;
 
   protected final Supplier<Pose2d> robotPoseSupplier = RobotState.getInstance()::getRobotPose;
 
@@ -117,14 +117,29 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
     return getRotationPID(Degrees.of(targetRotation));
   }
 
+  /**
+   * Gets the X velocity from the controller, should not over overridden
+   *
+   * @return the X velocity
+   */
   public double getControllerX() {
     return super.getX();
   }
 
+  /**
+   * Gets the Y velocity from the controller, should not be overridden
+   *
+   * @return the Y velocity
+   */
   public double getControllerY() {
     return super.getY();
   }
 
+  /**
+   * Gets the rotation velocity from the controller, should not be overridden
+   *
+   * @return the rotation velocity
+   */
   public double getControllerRotation() {
     return super.getRotation();
   }

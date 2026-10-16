@@ -19,7 +19,7 @@ public class AutoBase {
    * @return The command that drives to the pose
    */
   public static Command driveToPoseCommand(Pose2d pose) {
-    return new DriveToPoseCommand(true, () -> pose).create();
+    return new DriveToPoseCommand(() -> true, true, () -> pose).create();
   }
 
   /**

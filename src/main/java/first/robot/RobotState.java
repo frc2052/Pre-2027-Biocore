@@ -5,7 +5,9 @@ import first.robot.mechanisms.drive.DrivetrainMechanism;
 import first.robot.mechanisms.vision.VisionMechanism;
 import first.robot.utils.FieldConstants;
 import lombok.Getter;
+import lombok.Setter;
 import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.kinematics.ChassisVelocities;
 
 public class RobotState {
   private static RobotState INSTANCE;
@@ -15,6 +17,7 @@ public class RobotState {
       new PositionEstimator(FieldConstants.FieldRegions.VALID_ROBOT_POSE_REGION);
 
   @Getter private Pose2d autoStartPose = new Pose2d();
+  @Getter @Setter private ChassisVelocities wheelVelocity = new ChassisVelocities();
 
   public static RobotState getInstance() {
     if (INSTANCE == null) {

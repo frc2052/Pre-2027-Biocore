@@ -31,6 +31,21 @@ public class SnapToAngleCommand extends PIDDriveCommand {
     this.targetAngleSupplier = targetAngleSupplier;
   }
 
+  public SnapToAngleCommand(
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      BooleanSupplier fieldCentricSupplier,
+      boolean endWhenWithinTolerance,
+      Supplier<Rotation2d> targetAngleSupplier) {
+    this(
+        xSupplier,
+        ySupplier,
+        () -> 0.0,
+        fieldCentricSupplier,
+        endWhenWithinTolerance,
+        targetAngleSupplier);
+  }
+
   @Override
   public boolean isWithinTolerance() {
     return MathHelpers.angleEpsilonEquals(
