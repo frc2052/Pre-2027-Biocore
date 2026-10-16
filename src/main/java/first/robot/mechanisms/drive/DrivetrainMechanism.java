@@ -78,11 +78,13 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
           },
           new PPHolonomicDriveController(
               // TODO: tune auto PIDs
-              new PIDConstants(DrivetrainConstants.XY_PIDFF.pid.kP, 
-                  DrivetrainConstants.XY_PIDFF.pid.kI, 
-                  DrivetrainConstants.XY_PIDFF.pid.kD), 
-              new PIDConstants(DrivetrainConstants.ROTATION_PIDFF.pid.kP, 
-                  DrivetrainConstants.ROTATION_PIDFF.pid.kI, 
+              new PIDConstants(
+                  DrivetrainConstants.XY_PIDFF.pid.kP,
+                  DrivetrainConstants.XY_PIDFF.pid.kI,
+                  DrivetrainConstants.XY_PIDFF.pid.kD),
+              new PIDConstants(
+                  DrivetrainConstants.ROTATION_PIDFF.pid.kP,
+                  DrivetrainConstants.ROTATION_PIDFF.pid.kI,
                   DrivetrainConstants.ROTATION_PIDFF.pid.kD)),
           config,
           RobotInfo::isRedAlliance); // Drivetrain Subsystem for requirements

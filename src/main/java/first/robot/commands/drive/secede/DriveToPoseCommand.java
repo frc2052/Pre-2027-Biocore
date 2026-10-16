@@ -33,13 +33,7 @@ public class DriveToPoseCommand extends PIDDriveCommand {
   }
 
   public DriveToPoseCommand(boolean endWhenWithinTolerance, Supplier<Pose2d> targetPoseSupplier) {
-    this(
-        () -> 0.0,
-        () -> 0.0,
-        () -> 0.0,
-        () -> false,
-        endWhenWithinTolerance,
-        targetPoseSupplier);
+    this(() -> 0.0, () -> 0.0, () -> 0.0, () -> false, endWhenWithinTolerance, targetPoseSupplier);
   }
 
   @Override

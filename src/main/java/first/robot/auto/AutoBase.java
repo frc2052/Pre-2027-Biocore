@@ -4,9 +4,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FlippingUtil;
 import com.team2052.lib.commands.CommandBuilder;
 import com.team2052.lib.util.RobotInfo;
-import first.robot.auto.ChorPaths;
 import first.robot.commands.drive.secede.DriveToPoseCommand;
-
 import org.wpilib.command3.Command;
 import org.wpilib.driverstation.DriverStationErrors;
 import org.wpilib.math.geometry.Pose2d;
@@ -16,6 +14,7 @@ public class AutoBase {
 
   /**
    * Command that drives to the specified pose
+   *
    * @param pose the pose to drive to
    * @return The command that drives to the pose
    */
@@ -25,6 +24,7 @@ public class AutoBase {
 
   /**
    * Command that follows the provided Choreo Path
+   *
    * @param chorPath the Choreo Path to follow
    * @return The command that follows the path
    */
@@ -43,6 +43,7 @@ public class AutoBase {
 
   /**
    * Gets the starting pose for the given Choreo Path
+   *
    * @param chorPath the Choreo Path to get the starting pose for
    * @return The starting pose
    */
@@ -59,6 +60,7 @@ public class AutoBase {
 
   /**
    * Gets the starting pose and command for the given Choreo Path
+   *
    * @param chorPath the Choreo Path to get the starting pose and command for
    * @return A pair containing the starting pose and the command to follow the path
    */
@@ -68,6 +70,7 @@ public class AutoBase {
 
   /**
    * Gets the alliance-adjusted pose for the given pose
+   *
    * @param bluePose the pose to adjust
    * @return The alliance-adjusted pose
    */

@@ -1,7 +1,6 @@
 package first.robot.auto;
 
-
-public enum ChoreoPaths {
+public enum ChorPaths {
   TEST_PATH("NewPath");
 
   private final String pathName;
@@ -14,4 +13,3 @@ public enum ChoreoPaths {
     return pathName;
   }
 }
-

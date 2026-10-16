@@ -1,6 +1,5 @@
 package first.robot.auto;
 
-import first.robot.auto.ChorPaths;
 import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
 import org.wpilib.math.geometry.Pose2d;
