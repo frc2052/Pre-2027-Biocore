@@ -17,14 +17,13 @@ import first.robot.mechanisms.drive.ctre.generated.TunerConstants.TunerSwerveDri
 import java.util.function.Supplier;
 import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
-import org.wpilib.driverstation.*;
 import org.wpilib.command3.NeedsNameBuilderStage;
+import org.wpilib.driverstation.*;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.math.linalg.Vector;
 import org.wpilib.math.numbers.N3;
-import org.wpilib.system.DataLogManager;
 import org.wpilib.system.Timer;
 
 public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechanism {
@@ -65,8 +64,8 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
     try {
       var config = RobotConfig.fromGUISettings();
       AutoBuilder.configure(
-          () -> getState().Pose, // Current Pose supplier
-          this::resetPose, // Consumer, seeds pose agains auto
+          () -> robotState.getRobotPose(), // Current Pose supplier
+          robotState::seedPose, // Consumer, seeds pose for auto
           () -> getState().Velocity, // Current Speeds Supplier
           // Consumer of ChassisSpeeds and feedforwards to drive the robot
           (speeds, feedforwards) -> {
@@ -79,13 +78,16 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
           },
           new PPHolonomicDriveController(
               // TODO: tune auto PIDs
-              new PIDConstants(5, 0, 0), new PIDConstants(3.5, 0, 0)),
+              new PIDConstants(DrivetrainConstants.XY_PIDFF.pid.kP, 
+                  DrivetrainConstants.XY_PIDFF.pid.kI, 
+                  DrivetrainConstants.XY_PIDFF.pid.kD), 
+              new PIDConstants(DrivetrainConstants.ROTATION_PIDFF.pid.kP, 
+                  DrivetrainConstants.ROTATION_PIDFF.pid.kI, 
+                  DrivetrainConstants.ROTATION_PIDFF.pid.kD)),
           config,
-          () ->
-              (MatchState.getAlliance().get()
-                  == Alliance.RED)); // Drivetrain Subsystem for requirements
+          RobotInfo::isRedAlliance); // Drivetrain Subsystem for requirements
     } catch (Exception e) {
-      DataLogManager.log("Failed to configure AutoBuilder" + e.getStackTrace());
+      DriverStationErrors.reportError("Failed to configure AutoBuilder", e.getStackTrace());
     }
   }
 

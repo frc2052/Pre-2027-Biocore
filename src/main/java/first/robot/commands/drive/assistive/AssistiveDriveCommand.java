@@ -1,12 +1,11 @@
 package first.robot.commands.drive.assistive;
 
-import com.team2052.lib.helpers.MathHelpers;
-import com.team2052.lib.util.PIDFFConfiguration;
-import first.robot.commands.drive.PIDDriveCommand;
-
 import static org.wpilib.units.Units.MetersPerSecond;
 import static org.wpilib.units.Units.RadiansPerSecond;
 
+import com.team2052.lib.helpers.MathHelpers;
+import com.team2052.lib.util.PIDFFConfiguration;
+import first.robot.commands.drive.PIDDriveCommand;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -55,7 +54,9 @@ public abstract class AssistiveDriveCommand extends PIDDriveCommand {
     if (!isOverridingRotation()) {
       return super.getRotation();
     }
-    double pid = getRotationPID(getTargetPose().getRotation().getMeasure()).in(RadiansPerSecond) / maxAngularRate;
+    double pid =
+        getRotationPID(getTargetPose().getRotation().getMeasure()).in(RadiansPerSecond)
+            / maxAngularRate;
     double controller = super.getControllerRotation();
     return MathHelpers.clamp(controller + pid, -1, 1);
   }

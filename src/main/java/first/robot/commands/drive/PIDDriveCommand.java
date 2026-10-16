@@ -71,7 +71,8 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
     if (!isOverridingRotation()) {
       return super.getRotation();
     }
-    return getRotationPID(getTargetPose().getRotation().getMeasure()).in(RadiansPerSecond) / maxAngularRate;
+    return getRotationPID(getTargetPose().getRotation().getMeasure()).in(RadiansPerSecond)
+        / maxAngularRate;
   }
 
   public abstract boolean isWithinTolerance();
@@ -85,7 +86,8 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
   public abstract Pose2d getTargetPose();
 
   public LinearVelocity getXPID(Distance targetX) {
-    return MetersPerSecond.of(xyPidff.calculate(robotPoseSupplier.get().getMeasureX().in(Meters), targetX.in(Meters)));
+    return MetersPerSecond.of(
+        xyPidff.calculate(robotPoseSupplier.get().getMeasureX().in(Meters), targetX.in(Meters)));
   }
 
   public LinearVelocity getXPID(double targetX) {
@@ -93,7 +95,8 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
   }
 
   public LinearVelocity getYPID(Distance targetY) {
-    return MetersPerSecond.of(xyPidff.calculate(robotPoseSupplier.get().getMeasureY().in(Meters), targetY.in(Meters)));
+    return MetersPerSecond.of(
+        xyPidff.calculate(robotPoseSupplier.get().getMeasureY().in(Meters), targetY.in(Meters)));
   }
 
   public LinearVelocity getYPID(double targetY) {
@@ -101,8 +104,9 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
   }
 
   public AngularVelocity getRotationPID(Angle targetRotation) {
-    return RadiansPerSecond.of(rotationPidff.calculate(
-        robotPoseSupplier.get().getRotation().getRadians(), targetRotation.in(Radians)));
+    return RadiansPerSecond.of(
+        rotationPidff.calculate(
+            robotPoseSupplier.get().getRotation().getRadians(), targetRotation.in(Radians)));
   }
 
   public AngularVelocity getRotationRadiansPID(double targetRotation) {
