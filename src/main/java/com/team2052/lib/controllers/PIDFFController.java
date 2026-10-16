@@ -2,6 +2,7 @@ package com.team2052.lib.controllers;
 
 import com.team2052.lib.util.FeedForwardConfiguration;
 import com.team2052.lib.util.PIDConfiguration;
+import com.team2052.lib.util.PIDFFConfiguration;
 import org.wpilib.math.controller.ProfiledPIDController;
 import org.wpilib.math.controller.SimpleMotorFeedforward;
 import org.wpilib.math.trajectory.TrapezoidProfile.Constraints;
@@ -36,6 +37,10 @@ public class PIDFFController {
         pidConfig.maxAcc);
   }
 
+  public PIDFFController(PIDFFConfiguration config) {
+    this(config.pid, config.ff);
+  }
+
   public void enableContinuousInput(double min, double max) {
     pidController.enableContinuousInput(min, max);
   }
@@ -60,5 +65,13 @@ public class PIDFFController {
 
   public boolean atSetpoint() {
     return pidController.atSetpoint();
+  }
+
+  public void reset(double measurement) {
+    pidController.reset(measurement);
+  }
+
+  public void reset(double measurement, double velocity) {
+    pidController.reset(measurement, velocity);
   }
 }

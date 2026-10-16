@@ -1,9 +1,9 @@
-package com.team2052.lib.subsystems;
+package com.team2052.lib.mechanisms;
 
 import static org.wpilib.units.Units.*;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.team2052.lib.subsystems.ServoMechanismConstants.TalonFXConstants;
+import com.team2052.lib.mechanisms.ServoMechanismConstants.TalonFXConstants;
 import lombok.Getter;
 import lombok.Setter;
 import org.wpilib.units.measure.AngularVelocity;
