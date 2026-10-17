@@ -581,6 +581,9 @@ public class LimelightCamera {
     public String limelightName = "";
     public int defaultPipeline = 0;
     public Pose3d limelightPose = new Pose3d();
+    public int aprilTagPipeline = 0;
+    public int objectDetectionPipeline = 1;
+    public boolean canDoObjectDetection = false;
   }
 
   public class LimelightBotPose {

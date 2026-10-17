@@ -18,9 +18,15 @@ public class VisionConstants {
     LEFT_LIMELIGHT_CONSTANTS.defaultPipeline = 0;
     LEFT_LIMELIGHT_CONSTANTS.limelightName = "Left Limelight";
     LEFT_LIMELIGHT_CONSTANTS.limelightPose = new Pose3d();
+    LEFT_LIMELIGHT_CONSTANTS.aprilTagPipeline = 0;
+    LEFT_LIMELIGHT_CONSTANTS.objectDetectionPipeline = 1;
+    LEFT_LIMELIGHT_CONSTANTS.canDoObjectDetection = true;
 
     RIGHT_LIMELIGHT_CONSTANTS.defaultPipeline = 0;
     RIGHT_LIMELIGHT_CONSTANTS.limelightName = "Right Limelight";
     RIGHT_LIMELIGHT_CONSTANTS.limelightPose = new Pose3d();
+    RIGHT_LIMELIGHT_CONSTANTS.aprilTagPipeline = 0;
+    RIGHT_LIMELIGHT_CONSTANTS.objectDetectionPipeline = 1;
+    RIGHT_LIMELIGHT_CONSTANTS.canDoObjectDetection = true;
   }
 }

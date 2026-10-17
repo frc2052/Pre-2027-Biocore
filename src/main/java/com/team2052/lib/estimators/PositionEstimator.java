@@ -817,6 +817,10 @@ public class PositionEstimator {
       this.measurementDelay = measurementDelay;
       this.measurementReceivedTimestamp = measurementReceivedTimestamp;
     }
+
+    public PoseMeasurement() {
+      this(new Pose2d(), VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE), Seconds.of(0), Seconds.of(0));
+    }
   }
 
   /**
