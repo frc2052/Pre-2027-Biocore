@@ -33,11 +33,11 @@ public class AutoBase {
       PathPlannerPath path = PathPlannerPath.fromChoreoTrajectory(chorPath.getPathName());
       path.preventFlipping = false;
       // return AutoBuilder.followPath(path); TODO: Update when PathPlannerLib has CommandsV3
-      return CommandBuilder.emptyCommand();
+      return CommandBuilder.emptyInstantCommand();
     } catch (Exception e) {
       DriverStationErrors.reportError(
           "CANNOT FIND CHOREO PATH NAMED: " + chorPath.getPathName(), e.getStackTrace());
-      return CommandBuilder.emptyCommand();
+      return CommandBuilder.emptyInstantCommand();
     }
   }
 

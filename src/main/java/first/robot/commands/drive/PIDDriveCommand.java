@@ -22,7 +22,8 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
   protected Angle rotationTolerance;
   protected boolean endWhenWithinTolerance;
 
-  protected PIDFFController xyPidff;
+  protected PIDFFController xPidff;
+  protected PIDFFController yPidff;
   protected PIDFFController rotationPidff;
 
   protected final Supplier<Pose2d> robotPoseSupplier = RobotState.getInstance()::getRobotPose;
@@ -39,7 +40,8 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
     this.xyTolerance = DrivetrainConstants.XY_TOLERANCE;
     this.rotationTolerance = DrivetrainConstants.ROTATION_TOLERANCE;
     this.endWhenWithinTolerance = endWhenWithinTolerance;
-    this.xyPidff = new PIDFFController(xyPidff);
+    this.xPidff = new PIDFFController(xyPidff);
+    this.yPidff = new PIDFFController(xyPidff);
     this.rotationPidff = new PIDFFController(rotationPidff);
   }
 
@@ -87,7 +89,7 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
 
   public LinearVelocity getXPID(Distance targetX) {
     return MetersPerSecond.of(
-        xyPidff.calculate(robotPoseSupplier.get().getMeasureX().in(Meters), targetX.in(Meters)));
+        xPidff.calculate(robotPoseSupplier.get().getMeasureX().in(Meters), targetX.in(Meters)));
   }
 
   public LinearVelocity getXPID(double targetX) {
@@ -96,7 +98,7 @@ public abstract class PIDDriveCommand extends DefaultDriveCommand {
 
   public LinearVelocity getYPID(Distance targetY) {
     return MetersPerSecond.of(
-        xyPidff.calculate(robotPoseSupplier.get().getMeasureY().in(Meters), targetY.in(Meters)));
+        yPidff.calculate(robotPoseSupplier.get().getMeasureY().in(Meters), targetY.in(Meters)));
   }
 
   public LinearVelocity getYPID(double targetY) {

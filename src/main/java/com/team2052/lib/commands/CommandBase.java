@@ -1,6 +1,7 @@
 package com.team2052.lib.commands;
 
 import org.wpilib.command3.Command;
+import org.wpilib.command3.Scheduler;
 
 public interface CommandBase {
 
@@ -12,4 +13,9 @@ public interface CommandBase {
    * @return the created {@link Command}
    */
   Command create();
+
+  /** Creates and then schedules the command. Calls {@link CommandBase#create()} for the command. */
+  public default void schedule() {
+    Scheduler.getDefault().schedule(create());
+  }
 }

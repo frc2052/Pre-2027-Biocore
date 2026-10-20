@@ -76,7 +76,9 @@ public class Robot extends OpModeRobot {
 
     drivetrain.inputPeriodic();
     PeriodicMechanism.runAllInputPeriodics();
-    RobotState.getInstance().robotStateInputPeriodic();
+    RobotState.getInstance()
+        .robotStateInputPeriodic(); // Robot state periodics should always run last as they pull
+    // data from other periodic mechanisms
     drivetrain.loggingPeriodic();
     PeriodicMechanism.runAllLoggingPeriodics();
     RobotState.getInstance().robotStateLoggingPeriodic();

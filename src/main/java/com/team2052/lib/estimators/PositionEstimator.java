@@ -162,7 +162,6 @@ public class PositionEstimator {
       Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> mapPair = odometryLastPose.get(name);
       Pair<Pose2d, Optional<Pair<Pose2d, Vector<N3>>>> newPair =
           new Pair<>(mapPair.getFirst(), Optional.of(new Pair<>(lastPose, lastPoseStdDev)));
-      // TODO: fix, seems like we constantly use the original reference pose?
       odometryLastPose.replace(name, newPair);
     }
   }
@@ -282,7 +281,7 @@ public class PositionEstimator {
    * <p>To learn more about bayesian updates, read the following article:
    * https://www.lesswrong.com/posts/kkYoiPp3CiPG5AK4L/a-visual-explanation-of-bayesian-updating
    *
-   * <p>If you choose to read this article, imagine each distribtuionPairs input (Pair<Double,
+   * <p>If you choose to read this article, imagine each distribution Pair's input (Pair<Double,
    * Double>) as a graph: The first value is the mean, and the second value is the standard
    * deviation. The standard deviation creates either a "skinnier & taller" graph or a "wider &
    * flatter" graph. The bayesian update will combine all of these graphs into a single graph, which
@@ -682,7 +681,7 @@ public class PositionEstimator {
     // position of the robot. We don't care if rotation is super high as we often
     // use that to
     // prevent feedback loops from MT 2 input systems.
-    if (measurement.poseStdDev.get(0) > 2.5 && measurement.poseStdDev.get(1) > 2.5) {
+    if (measurement.poseStdDev.get(0) > 2.5 || measurement.poseStdDev.get(1) > 2.5) {
       return false;
     }
 
@@ -819,7 +818,11 @@ public class PositionEstimator {
     }
 
     public PoseMeasurement() {
-      this(new Pose2d(), VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE), Seconds.of(0), Seconds.of(0));
+      this(
+          new Pose2d(),
+          VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE),
+          Seconds.of(0),
+          Seconds.of(0));
     }
   }
 

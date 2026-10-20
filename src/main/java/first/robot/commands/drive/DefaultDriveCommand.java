@@ -20,7 +20,7 @@ import org.wpilib.math.util.MathUtil;
 
 public class DefaultDriveCommand implements CommandBase {
 
-  protected final DrivetrainMechanism drivetrainMechanism = DrivetrainMechanism.getInstance();
+  protected final DrivetrainMechanism drivetrain = DrivetrainMechanism.getInstance();
 
   private final DoubleSupplier xSupplier;
   private final DoubleSupplier ySupplier;
@@ -86,14 +86,14 @@ public class DefaultDriveCommand implements CommandBase {
   @Override
   public Command create() {
     return CommandBuilder.create(
-        drivetrainMechanism,
-        "Default Drive Command",
         coroutine -> {
           while (true) {
-            drivetrainMechanism.setControl(getSwerveRequest());
+            drivetrain.setControl(getSwerveRequest());
             coroutine.yield();
           }
-        });
+        },
+        "Default Drive Command",
+        drivetrain);
   }
 
   /**

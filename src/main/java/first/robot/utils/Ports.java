@@ -1,5 +1,3 @@
 package first.robot.utils;
 
-public class Ports {
-    
-}
+public class Ports {}
