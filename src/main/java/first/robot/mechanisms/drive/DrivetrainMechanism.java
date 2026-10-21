@@ -8,10 +8,13 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.team2052.lib.controllers.PIDFFController;
 import com.team2052.lib.estimators.PositionEstimator.OdometryMeasurement;
 import com.team2052.lib.estimators.PositionEstimator.PoseMeasurement;
 import com.team2052.lib.util.RobotInfo;
 import com.team2052.lib.vision.StandardDeviationCalculator;
+
+import choreo.trajectory.SwerveSample;
 import first.robot.RobotState;
 import first.robot.mechanisms.drive.ctre.generated.TunerConstants.TunerSwerveDrivetrain;
 import java.util.function.Supplier;
@@ -19,6 +22,8 @@ import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
 import org.wpilib.command3.NeedsNameBuilderStage;
 import org.wpilib.driverstation.*;
+import org.wpilib.math.controller.PIDController;
+import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.linalg.VecBuilder;
@@ -37,6 +42,12 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
 
   private final SwerveRequest.ApplyRobotVelocity autoSwerveRequest =
       new SwerveRequest.ApplyRobotVelocity().withVelocity(autoTargetSpeeds);
+
+  private final  PIDFFController xController = new PIDFFController(DrivetrainConstants.xConfiguration); 
+  private final  PIDFFController yController = new PIDFFController(DrivetrainConstants.yConfiguration);
+  private final  PIDFFController headingController = new PIDFFController(DrivetrainConstants.headingConfiguration);
+
+
 
   private boolean hasAppliedOperatorPerspective = false;
 
@@ -92,6 +103,22 @@ public class DrivetrainMechanism extends TunerSwerveDrivetrain implements Mechan
       DriverStationErrors.reportError("Failed to configure AutoBuilder", e.getStackTrace());
     }
   }
+
+
+  public void followChoreoTraj(SwerveSample sample){
+    Pose2d pose = robotState.getRobotPose();
+
+    ChassisVelocities velocities = new ChassisVelocities(
+      sample.vx + xController.calculate(pose.getX(), sample.x),
+      sample.vy + yController.calculate(pose.getY(), sample.y),
+      sample.omega + headingController.calculate(pose.getRotation().getRadians(), sample.heading));
+
+    applyRequest(()->(new SwerveRequest.ApplyRobotVelocity().withVelocity(velocities)));
+
+  }
+
+
+  
 
   /**
    * Command predecessor that continually applies {@link SwerveRequest} to the drivetrain

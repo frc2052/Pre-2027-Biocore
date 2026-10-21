@@ -57,6 +57,7 @@ public class DrivetrainConstants {
   public static final PIDFFConfiguration XY_PIDFF;
   public static final PIDFFConfiguration ROTATION_PIDFF;
 
+
   static {
     XY_PIDFF =
         new PIDFFConfiguration(
@@ -65,4 +66,18 @@ public class DrivetrainConstants {
         new PIDFFConfiguration(
             new PIDConfiguration(0, 0, 0, 0, 0), new FeedForwardConfiguration(0, 0, 0));
   }
+
+
+   //TODO: Choreo lib configs.
+   
+    public static final PIDFFConfiguration xConfiguration = new PIDFFConfiguration(
+            new PIDConfiguration(0, 0, 0, 0, 0), new FeedForwardConfiguration(0, 0, 0));
+
+    public static final PIDFFConfiguration yConfiguration = new PIDFFConfiguration(
+            new PIDConfiguration(0, 0, 0, 0, 0), new FeedForwardConfiguration(0, 0, 0));
+
+    public static final PIDFFConfiguration headingConfiguration = new PIDFFConfiguration(
+            new PIDConfiguration(0, 0, 0, 0, 0), new FeedForwardConfiguration(0, 0, 0));
+
+
 }

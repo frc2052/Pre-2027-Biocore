@@ -1,9 +1,12 @@
-package first.robot.auto;
+package first.robot.auto.PathPlanner;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FlippingUtil;
 import com.team2052.lib.commands.CommandBuilder;
+import choreo.auto.AutoFactory;
 import com.team2052.lib.util.RobotInfo;
+
+import first.robot.auto.ChorPaths;
 import first.robot.commands.drive.secede.DriveToPoseCommand;
 import org.wpilib.command3.Command;
 import org.wpilib.driverstation.DriverStationErrors;
@@ -28,7 +31,7 @@ public class AutoBase {
    * @param chorPath the Choreo Path to follow
    * @return The command that follows the path
    */
-  public static Command followPathCommand(ChorPaths chorPath) {
+  public static Command followPathPlannerPathCommand(ChorPaths chorPath) {
     try {
       PathPlannerPath path = PathPlannerPath.fromChoreoTrajectory(chorPath.getPathName());
       path.preventFlipping = false;
@@ -65,7 +68,7 @@ public class AutoBase {
    * @return A pair containing the starting pose and the command to follow the path
    */
   public static Pair<Pose2d, Command> getStartPoseAndCommand(ChorPaths chorPath) {
-    return new Pair<>(getStartPose(chorPath), followPathCommand(chorPath));
+    return new Pair<>(getStartPose(chorPath), followPathPlannerPathCommand(chorPath));
   }
 
   /**
@@ -83,4 +86,8 @@ public class AutoBase {
   }
 
   public static void doSomething() {}
+
 }
+
+
+
