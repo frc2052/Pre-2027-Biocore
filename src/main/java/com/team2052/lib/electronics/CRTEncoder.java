@@ -16,7 +16,8 @@ import org.wpilib.util.Pair;
 
 /**
  * CRTEncoder represents 2 CANcoders that are mounted on gears that both interlock with a larger
- * gear. The measure of that larger gear is determined via using the Chinese Remainder Theorem. The number of teeth on the two encoders should be co-prime.
+ * gear. The measure of that larger gear is determined via using the Chinese Remainder Theorem. The
+ * number of teeth on the two encoders should be co-prime.
  *
  * <p>https://www.chiefdelphi.com/t/how-to-chinese-remainder-theorem-for-gears-turrets/512876
  */
@@ -33,6 +34,7 @@ public class CRTEncoder {
 
   /**
    * Creates a new CRTEncoder with the given configuration.
+   *
    * @param config The configuration for the CRTEncoder.
    */
   public CRTEncoder(CRTEncoderConfig config) {

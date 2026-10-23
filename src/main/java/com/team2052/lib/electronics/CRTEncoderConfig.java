@@ -12,12 +12,21 @@ public class CRTEncoderConfig {
   public CANCoderConstants encoderAConstants = new CANCoderConstants();
   public CANCoderConstants encoderBConstants = new CANCoderConstants();
 
-  /** The number of teeth on encoder A, should be co-prime with encoder B. A is typically the larger gear */
+  /**
+   * The number of teeth on encoder A, should be co-prime with encoder B. A is typically the larger
+   * gear
+   */
   public int aTeeth = 1;
-  /** The number of teeth on encoder B, should be co-prime with encoder A. B is typically the smaller gear */
+
+  /**
+   * The number of teeth on encoder B, should be co-prime with encoder A. B is typically the smaller
+   * gear
+   */
   public int bTeeth = 1;
+
   /** The number of teeth on the measured gear */
   public int measuredGearTeeth = 1;
+
   /** The number of taps for the moving average filter */
   public int filterTaps = 5;
 
