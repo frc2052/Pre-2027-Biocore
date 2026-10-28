@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.interpolation.Interpolatable;
 import org.wpilib.math.kinematics.ChassisAccelerations;
@@ -141,6 +142,10 @@ public final class Vector2d
    */
   public Translation2d toTranslation2d() {
     return vector;
+  }
+
+  public Transform2d toTransform2d() {
+    return new Transform2d(vector, new Rotation2d());
   }
 
   /**

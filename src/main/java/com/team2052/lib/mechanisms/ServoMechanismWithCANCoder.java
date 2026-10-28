@@ -15,7 +15,7 @@ public abstract class ServoMechanismWithCANCoder extends ServoMechanism {
   private final BaseStatusSignal[] encoderSignals;
 
   public ServoMechanismWithCANCoder(
-      ServoMechanismConstants constants, CANCoderConstants encoderConstants) {
+      ServoMechanismConfig constants, CANCoderConfig encoderConstants) {
     super(constants);
 
     encoder = new CANcoder(encoderConstants.id.getFirst(), encoderConstants.id.getSecond());

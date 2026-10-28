@@ -14,10 +14,13 @@ import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Time;
 import org.wpilib.units.measure.Voltage;
 
-public class ServoMechanismConstants {
+public class ServoMechanismConfig {
+
+  public static final ServoMechanismConfig DEFAULT = new ServoMechanismConfig();
+
   @Getter @Setter public String name = "UNNAMED_MOTOR";
-  @Getter @Setter public TalonFXConstants leaderTalonFXConstants = new TalonFXConstants();
-  @Getter @Setter public TalonFXConstants[] followerTalonFXConstants = new TalonFXConstants[0];
+  @Getter @Setter public TalonFXConfig leaderTalonFXConfig = new TalonFXConfig();
+  @Getter @Setter public TalonFXConfig[] followerTalonFXConfig = new TalonFXConfig[0];
 
   @Getter @Setter public double loopTime = Constants.MAIN_LOOP_PERIOD.in(Seconds);
   @Getter @Setter public Time timeout = Milliseconds.of(100);
@@ -89,7 +92,7 @@ public class ServoMechanismConstants {
    * @param kP the proportional gain
    * @return this
    */
-  public ServoMechanismConstants withKp(double kP) {
+  public ServoMechanismConfig withKp(double kP) {
     this.slot0kP = kP;
     return this;
   }
@@ -107,7 +110,7 @@ public class ServoMechanismConstants {
    * @param kI the integral gain
    * @return this
    */
-  public ServoMechanismConstants withKi(double kI) {
+  public ServoMechanismConfig withKi(double kI) {
     this.slot0kI = kI;
     return this;
   }
@@ -124,7 +127,7 @@ public class ServoMechanismConstants {
    * @param kD the derivative gain
    * @return this
    */
-  public ServoMechanismConstants withKd(double kD) {
+  public ServoMechanismConfig withKd(double kD) {
     this.slot0kD = kD;
     return this;
   }
@@ -135,7 +138,7 @@ public class ServoMechanismConstants {
    * @param kV the velocity gain
    * @return this
    */
-  public ServoMechanismConstants withKv(double kV) {
+  public ServoMechanismConfig withKv(double kV) {
     this.slot0kV = kV;
     return this;
   }
@@ -146,7 +149,7 @@ public class ServoMechanismConstants {
    * @param kA the acceleration gain
    * @return this
    */
-  public ServoMechanismConstants withKa(double kA) {
+  public ServoMechanismConfig withKa(double kA) {
     this.slot0kA = kA;
     return this;
   }
@@ -157,7 +160,7 @@ public class ServoMechanismConstants {
    * @param kS the static gain
    * @return this
    */
-  public ServoMechanismConstants withKs(double kS) {
+  public ServoMechanismConfig withKs(double kS) {
     this.slot0kS = kS;
     return this;
   }
@@ -168,7 +171,7 @@ public class ServoMechanismConstants {
    * @param kG the gravity gain
    * @return this
    */
-  public ServoMechanismConstants withKg(double kG) {
+  public ServoMechanismConfig withKg(double kG) {
     this.slot0kG = kG;
     return this;
   }
@@ -179,7 +182,7 @@ public class ServoMechanismConstants {
    * @param deadband the deadband
    * @return this
    */
-  public ServoMechanismConstants withDeadband(int deadband) {
+  public ServoMechanismConfig withDeadband(int deadband) {
     this.slot0kDeadband = deadband;
     return this;
   }
@@ -190,7 +193,7 @@ public class ServoMechanismConstants {
    * @param positionKp the proportional gain for the position PID controller
    * @return this
    */
-  public ServoMechanismConstants withPositionKp(double positionKp) {
+  public ServoMechanismConfig withPositionKp(double positionKp) {
     this.slot1kP = positionKp;
     return this;
   }
@@ -201,7 +204,7 @@ public class ServoMechanismConstants {
    * @param positionKi the integral gain for the position PID controller
    * @return this
    */
-  public ServoMechanismConstants withPositionKi(double positionKi) {
+  public ServoMechanismConfig withPositionKi(double positionKi) {
     this.slot1kI = positionKi;
     return this;
   }
@@ -212,7 +215,7 @@ public class ServoMechanismConstants {
    * @param positionKd the derivative gain for the position PID controller
    * @return this
    */
-  public ServoMechanismConstants withPositionKd(double positionKd) {
+  public ServoMechanismConfig withPositionKd(double positionKd) {
     this.slot1kD = positionKd;
     return this;
   }
@@ -223,7 +226,7 @@ public class ServoMechanismConstants {
    * @param positionDeadband the deadband for determining if it is at position
    * @return this
    */
-  public ServoMechanismConstants withPositionDeadband(double positionDeadband) {
+  public ServoMechanismConfig withPositionDeadband(double positionDeadband) {
     this.slot1kDeadband = positionDeadband;
     return this;
   }
@@ -234,7 +237,7 @@ public class ServoMechanismConstants {
    * @param cruiseVelocity the cruise velocity
    * @return this
    */
-  public ServoMechanismConstants withCruiseVelocity(double cruiseVelocity) {
+  public ServoMechanismConfig withCruiseVelocity(double cruiseVelocity) {
     this.cruiseVelocity = cruiseVelocity;
     return this;
   }
@@ -245,7 +248,7 @@ public class ServoMechanismConstants {
    * @param acceleration the acceleration
    * @return this
    */
-  public ServoMechanismConstants withAcceleration(double acceleration) {
+  public ServoMechanismConfig withAcceleration(double acceleration) {
     this.acceleration = acceleration;
     return this;
   }
@@ -256,7 +259,7 @@ public class ServoMechanismConstants {
    * @param jerk the jerk
    * @return this
    */
-  public ServoMechanismConstants withJerk(double jerk) {
+  public ServoMechanismConfig withJerk(double jerk) {
     this.jerk = jerk;
     return this;
   }
@@ -267,7 +270,7 @@ public class ServoMechanismConstants {
    * @param rampRate the ramp rate
    * @return this
    */
-  public ServoMechanismConstants withRampRate(double rampRate) {
+  public ServoMechanismConfig withRampRate(double rampRate) {
     this.rampRate = rampRate;
     return this;
   }
@@ -278,7 +281,7 @@ public class ServoMechanismConstants {
    * @param maxVoltage the maximum voltage
    * @return this
    */
-  public ServoMechanismConstants withMaxVoltage(Voltage maxVoltage) {
+  public ServoMechanismConfig withMaxVoltage(Voltage maxVoltage) {
     this.maxOutput = maxVoltage;
     return this;
   }
@@ -290,7 +293,7 @@ public class ServoMechanismConstants {
    * @param supplyCurrentLimit the supply current limit
    * @return this
    */
-  public ServoMechanismConstants withSupplyCurrentLimit(Current supplyCurrentLimit) {
+  public ServoMechanismConfig withSupplyCurrentLimit(Current supplyCurrentLimit) {
     this.supplyCurrentLimit = supplyCurrentLimit;
     return this;
   }
@@ -301,7 +304,7 @@ public class ServoMechanismConstants {
    * @param enableSupplyCurrentLimit enable the supply current limit
    * @return this
    */
-  public ServoMechanismConstants withEnableSupplyCurrentLimit(boolean enableSupplyCurrentLimit) {
+  public ServoMechanismConfig withEnableSupplyCurrentLimit(boolean enableSupplyCurrentLimit) {
     this.enableSupplyCurrentLimit = enableSupplyCurrentLimit;
     return this;
   }
@@ -313,7 +316,7 @@ public class ServoMechanismConstants {
    * @param statorCurrentLimit the stator current limit
    * @return this
    */
-  public ServoMechanismConstants withStatorCurrentLimit(Current statorCurrentLimit) {
+  public ServoMechanismConfig withStatorCurrentLimit(Current statorCurrentLimit) {
     this.statorCurrentLimit = statorCurrentLimit;
     return this;
   }
@@ -324,7 +327,7 @@ public class ServoMechanismConstants {
    * @param enableStatorCurrentLimit enable the stator current limit
    * @return this
    */
-  public ServoMechanismConstants withEnableStatorCurrentLimit(boolean enableStatorCurrentLimit) {
+  public ServoMechanismConfig withEnableStatorCurrentLimit(boolean enableStatorCurrentLimit) {
     this.enableStatorCurrentLimit = enableStatorCurrentLimit;
     return this;
   }
@@ -335,7 +338,7 @@ public class ServoMechanismConstants {
    * @param softwareMax the maximum units limit
    * @return this
    */
-  public ServoMechanismConstants withMaxUnitsLimit(Angle softwareMax) {
+  public ServoMechanismConfig withMaxUnitsLimit(Angle softwareMax) {
     this.softwareMax = softwareMax;
     return this;
   }
@@ -346,7 +349,7 @@ public class ServoMechanismConstants {
    * @param softwareMin the minimum units limit
    * @return this
    */
-  public ServoMechanismConstants withMinUnitsLimit(Angle softwareMin) {
+  public ServoMechanismConfig withMinUnitsLimit(Angle softwareMin) {
     this.softwareMin = softwareMin;
     return this;
   }
@@ -357,28 +360,28 @@ public class ServoMechanismConstants {
    * @param sensorToMechanismRatio the ratio of sensor rotations to the mechanism's output
    * @return this
    */
-  public ServoMechanismConstants withSensorToMechanismRatio(double sensorToMechanismRatio) {
+  public ServoMechanismConfig withSensorToMechanismRatio(double sensorToMechanismRatio) {
     this.sensorToMechanismRatio = sensorToMechanismRatio;
     return this;
   }
 
   /** Holds id, bus, and motor alignment value for a TalonFX motor controller */
-  public static class TalonFXConstants {
+  public static class TalonFXConfig {
     @Getter @Setter public int id = -1;
     @Getter @Setter public CANBus bus = new CANBus();
     @Getter @Setter public MotorAlignmentValue alignmentValue = MotorAlignmentValue.Opposed;
 
-    public TalonFXConstants withId(int id) {
+    public TalonFXConfig withId(int id) {
       this.id = id;
       return this;
     }
 
-    public TalonFXConstants withBus(CANBus bus) {
+    public TalonFXConfig withBus(CANBus bus) {
       this.bus = bus;
       return this;
     }
 
-    public TalonFXConstants withInvertMotorOutput(MotorAlignmentValue alignmentValue) {
+    public TalonFXConfig withInvertMotorOutput(MotorAlignmentValue alignmentValue) {
       this.alignmentValue = alignmentValue;
       return this;
     }

@@ -2,6 +2,8 @@ package com.team2052.lib.vision.questnav;
 
 import static org.wpilib.units.Units.*;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.questnav.QuestNav;
 import com.team2052.lib.commands.CommandBuilder;
 import com.team2052.lib.mechanisms.PeriodicMechanism;
@@ -94,7 +96,16 @@ public class QuestNavMechanism extends PeriodicMechanism {
   public void outputPeriodic() {}
 
   @Override
-  public void loggingPeriodic() {}
+  public void loggingPeriodic() {
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Is Connected", lastState.isConnected);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Is Tracking", lastState.isTracking);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Robot Pose", lastState.robotPose);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Quest Pose", lastState.questPose);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Flat Robot Pose", lastState.flatRobotPose);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Data Timestamp", lastState.dataTimestamp);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Latency", lastState.latency);
+    Logger.recordOutput("Mechanism/" + name + "/Quest/Battery Percent", lastState.batteryPct);
+  }
 
   public class QuestState {
     public Pose3d robotPose = new Pose3d();

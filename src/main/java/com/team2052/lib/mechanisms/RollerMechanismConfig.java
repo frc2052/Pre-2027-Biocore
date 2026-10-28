@@ -3,17 +3,20 @@ package com.team2052.lib.mechanisms;
 import static org.wpilib.units.Units.*;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.team2052.lib.mechanisms.ServoMechanismConstants.TalonFXConstants;
+import com.team2052.lib.mechanisms.ServoMechanismConfig.TalonFXConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Time;
 
-public class RollerMechanismConstants {
+public class RollerMechanismConfig {
+
+  public static final RollerMechanismConfig DEFAULT = new RollerMechanismConfig();
+
   @Getter @Setter public String name = "UNNAMED_MOTOR";
-  @Getter @Setter public TalonFXConstants leaderTalonFXConstants = new TalonFXConstants();
-  @Getter @Setter public TalonFXConstants[] followerTalonFXConstants = new TalonFXConstants[0];
+  @Getter @Setter public TalonFXConfig leaderTalonFXConstants = new TalonFXConfig();
+  @Getter @Setter public TalonFXConfig[] followerTalonFXConstants = new TalonFXConfig[0];
 
   @Getter @Setter public NeutralModeValue neutralMode = NeutralModeValue.Coast;
 
@@ -64,7 +67,7 @@ public class RollerMechanismConstants {
    * @param kP the proportional gain
    * @return this
    */
-  public RollerMechanismConstants withKp(double kP) {
+  public RollerMechanismConfig withKp(double kP) {
     this.slot0kP = kP;
     return this;
   }
@@ -82,7 +85,7 @@ public class RollerMechanismConstants {
    * @param kI the integral gain
    * @return this
    */
-  public RollerMechanismConstants withKi(double kI) {
+  public RollerMechanismConfig withKi(double kI) {
     this.slot0kI = kI;
     return this;
   }
@@ -99,7 +102,7 @@ public class RollerMechanismConstants {
    * @param kD the derivative gain
    * @return this
    */
-  public RollerMechanismConstants withKd(double kD) {
+  public RollerMechanismConfig withKd(double kD) {
     this.slot0kD = kD;
     return this;
   }
@@ -110,7 +113,7 @@ public class RollerMechanismConstants {
    * @param kV the velocity gain
    * @return this
    */
-  public RollerMechanismConstants withKv(double kV) {
+  public RollerMechanismConfig withKv(double kV) {
     this.slot0kV = kV;
     return this;
   }
@@ -121,7 +124,7 @@ public class RollerMechanismConstants {
    * @param kA the acceleration gain
    * @return this
    */
-  public RollerMechanismConstants withKa(double kA) {
+  public RollerMechanismConfig withKa(double kA) {
     this.slot0kA = kA;
     return this;
   }
@@ -132,7 +135,7 @@ public class RollerMechanismConstants {
    * @param kS the static gain
    * @return this
    */
-  public RollerMechanismConstants withKs(double kS) {
+  public RollerMechanismConfig withKs(double kS) {
     this.slot0kS = kS;
     return this;
   }

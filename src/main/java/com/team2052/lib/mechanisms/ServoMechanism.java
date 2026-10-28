@@ -27,7 +27,7 @@ public abstract class ServoMechanism extends PeriodicMechanism {
   protected final TalonFX[] followers;
   protected TalonFXConfiguration leaderConfig;
   protected TalonFXConfiguration[] followerConfigs;
-  protected ServoMechanismConstants constants;
+  protected ServoMechanismConfig constants;
   protected ControlMode mode = ControlMode.OPEN_LOOP;
   protected double demand; // demand is either: open loop percent OR closed loop degrees
 
@@ -35,15 +35,15 @@ public abstract class ServoMechanism extends PeriodicMechanism {
   private final StatusSignal<AngularVelocity> velocitySignal;
   private final BaseStatusSignal[] motorSignals;
 
-  public ServoMechanism(ServoMechanismConstants constants) {
+  public ServoMechanism(ServoMechanismConfig constants) {
     super(constants.name);
     this.constants = constants;
 
-    leader = new TalonFX(constants.leaderTalonFXConstants.id, constants.leaderTalonFXConstants.bus);
-    followers = new TalonFX[constants.followerTalonFXConstants.length];
+    leader = new TalonFX(constants.leaderTalonFXConfig.id, constants.leaderTalonFXConfig.bus);
+    followers = new TalonFX[constants.followerTalonFXConfig.length];
 
     leaderConfig = new TalonFXConfiguration();
-    followerConfigs = new TalonFXConfiguration[constants.followerTalonFXConstants.length];
+    followerConfigs = new TalonFXConfiguration[constants.followerTalonFXConfig.length];
 
     leaderConfig.Feedback.FeedbackSensorSource = constants.sensorMode;
     leaderConfig.Feedback.SensorToMechanismRatio = constants.sensorToMechanismRatio;
@@ -97,15 +97,15 @@ public abstract class ServoMechanism extends PeriodicMechanism {
 
     // Configure followers
     for (int i = 0; i < followers.length; ++i) {
-      int lID = constants.leaderTalonFXConstants.id; // Leader ID
-      int fID = constants.followerTalonFXConstants[i].id; // Follower ID
-      CANBus fBus = constants.followerTalonFXConstants[i].bus; // Follower CAN bus
+      int lID = constants.leaderTalonFXConfig.id; // Leader ID
+      int fID = constants.followerTalonFXConfig[i].id; // Follower ID
+      CANBus fBus = constants.followerTalonFXConfig[i].bus; // Follower CAN bus
       MotorAlignmentValue fAligned =
           constants
-              .followerTalonFXConstants[i]
+              .followerTalonFXConfig[i]
               .alignmentValue; // If the motors rotate in the same direction or not
 
-      if (!fBus.equals(constants.leaderTalonFXConstants.bus)) {
+      if (!fBus.equals(constants.leaderTalonFXConfig.bus)) {
         throw new RuntimeException("Leader and Follower TalonFXs must be on the same CAN bus.");
       }
 

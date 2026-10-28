@@ -23,7 +23,7 @@ public class StandardDeviationCalculator {
       double xyCoefficient,
       double angleCoefficient,
       PoseEstimate estimate,
-      Pose2d currentPose,
+      Pose2d providedMT2pose,
       Vector<N3> baselineDeviation) {
 
     // return max if no valid tags
@@ -44,9 +44,9 @@ public class StandardDeviationCalculator {
     if (avgAmbiguity > 0.7)
       return VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
 
-    double distToCurrent = estimate.pose.getTranslation().getDistance(currentPose.getTranslation());
+    double distToCurrent = estimate.pose.getTranslation().getDistance(providedMT2pose.getTranslation());
     double angleDist =
-        Math.abs(estimate.pose.getRotation().getRadians() - currentPose.getRotation().getRadians());
+        Math.abs(estimate.pose.getRotation().getRadians() - providedMT2pose.getRotation().getRadians());
 
     double distSTD = distToCurrent < 1 ? Math.pow(distToCurrent, 2) : Double.MAX_VALUE;
     double angleSTD =

@@ -30,7 +30,7 @@ import org.wpilib.units.measure.Voltage;
 public abstract class RollerMechanism extends PeriodicMechanism {
   protected final TalonFX leader;
   protected final TalonFX[] followers;
-  protected RollerMechanismConstants constants;
+  protected RollerMechanismConfig constants;
   protected final VelocityTorqueCurrentFOC velocityControl =
       new VelocityTorqueCurrentFOC(0).withSlot(0);
   protected final MotionMagicVelocityTorqueCurrentFOC motionMagicControl =
@@ -45,7 +45,7 @@ public abstract class RollerMechanism extends PeriodicMechanism {
   private final StatusSignal<Current> torqueCurrentSignal;
   private final BaseStatusSignal[] signals;
 
-  public RollerMechanism(RollerMechanismConstants constants) {
+  public RollerMechanism(RollerMechanismConfig constants) {
     super(constants.name);
     this.constants = constants;
 

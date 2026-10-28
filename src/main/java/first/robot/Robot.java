@@ -8,9 +8,11 @@ import com.team2052.lib.mechanisms.PeriodicMechanism;
 import com.team2052.lib.util.RobotInfo;
 import first.robot.mechanisms.drive.DrivetrainMechanism;
 import first.robot.utils.FieldConstants;
+import org.littletonrobotics.junction.LoggedOpModeRobot;
+import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.DriverStationDisplay;
 import org.wpilib.fields.Fields;
-import org.wpilib.framework.OpModeRobot;
+import org.wpilib.system.Timer;
 
 /**
  * The methods in this class are called automatically as described in the OpModeRobot documentation.
@@ -19,7 +21,7 @@ import org.wpilib.framework.OpModeRobot;
  * or the package after creating this project, you must also update the Main.java file in the
  * project.
  */
-public class Robot extends OpModeRobot {
+public class Robot extends LoggedOpModeRobot {
   private final RobotContainer robotContainer = RobotContainer.getInstance();
   private String currentOpMode;
 
@@ -65,6 +67,7 @@ public class Robot extends OpModeRobot {
 
   @Override
   public void robotPeriodic() {
+    double periodicStartTime = Timer.getMonotonicTimestamp();
     String opMode = super.getOpMode();
 
     if (!opMode.equals(currentOpMode)) {
@@ -84,5 +87,8 @@ public class Robot extends OpModeRobot {
     RobotState.getInstance().robotStateLoggingPeriodic();
     drivetrain.outputPeriodic();
     PeriodicMechanism.runAllOutputPeriodics();
+    double periodicStopTime = Timer.getMonotonicTimestamp();
+
+    Logger.recordOutput("Periodic Loop Timing (ms)", (periodicStartTime - periodicStopTime) * 1000);
   }
 }

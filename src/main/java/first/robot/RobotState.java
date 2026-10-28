@@ -1,11 +1,13 @@
 package first.robot;
 
 import com.team2052.lib.estimators.PositionEstimator;
+import com.team2052.lib.util.RobotInfo;
 import first.robot.mechanisms.drive.DrivetrainMechanism;
 import first.robot.mechanisms.vision.VisionMechanism;
 import first.robot.utils.FieldConstants;
 import lombok.Getter;
 import lombok.Setter;
+import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 
@@ -34,7 +36,32 @@ public class RobotState {
 
   public void robotStateInputPeriodic() {}
 
-  public void robotStateLoggingPeriodic() {}
+  public void robotStateLoggingPeriodic() {
+    // Estimator Logging
+    Logger.recordOutput("Robot State/Estimator/Pose/Value", estimator.getLastPose());
+    Logger.recordOutput("Robot State/Estimator/Velocity/Value", estimator.getLastVelocity());
+    Logger.recordOutput(
+        "Robot State/Estimator/Acceleration/Value", estimator.getLastAcceleration());
+    Logger.recordOutput(
+        "Robot State/Estimator/Jerk/Value", estimator.getJerkPositionVector().toTransform2d());
+    Logger.recordOutput(
+        "Robot State/Estimator/Pose/Standard Deviation", estimator.getLastPoseStdDev());
+    Logger.recordOutput(
+        "Robot State/Estimator/Velocity/Standard Deviation", estimator.getLastVelocityStdDev());
+    Logger.recordOutput(
+        "Robot State/Estimator/Acceleration/Standard Deviation",
+        estimator.getLastAccelerationStdDev());
+    Logger.recordOutput(
+        "Robot State/Estimator/Jerk/Standard Deviation", estimator.getLastJerkStdDev());
+
+    // Wheel Velocity
+    Logger.recordOutput("Robot State/Drivetrain/Wheel Velocity", wheelVelocity);
+
+    // Auto
+    if (RobotInfo.isDisabled()) {
+      Logger.recordOutput("Robot State/Auto/Start Pose", autoStartPose);
+    }
+  }
 
   public void seedAutoStartPose(Pose2d pose) {
     autoStartPose = pose;
