@@ -26,6 +26,7 @@ public class DefaultDriveCommand implements CommandBase {
   private final DoubleSupplier ySupplier;
   private final DoubleSupplier rotationSupplier;
   private final BooleanSupplier fieldCentricSupplier;
+  private final BooleanSupplier brakeSupplier;
 
   protected final double maxSpeed = DrivetrainConstants.DRIVE_MAX_SPEED.in(MetersPerSecond);
   protected final double maxAngularRate =
@@ -62,6 +63,10 @@ public class DefaultDriveCommand implements CommandBase {
           .withDeadband(maxSpeed * driveDeadband)
           .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
+  protected SwerveRequest.SwerveDriveBrake brake =
+      new SwerveRequest.SwerveDriveBrake()
+          .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
+
   /**
    * @param xSupplier supplier for forward velocity.
    * @param ySupplier supplier for sideways velocity.
@@ -78,6 +83,31 @@ public class DefaultDriveCommand implements CommandBase {
     this.ySupplier = ySupplier;
     this.rotationSupplier = rotationSupplier;
     this.fieldCentricSupplier = fieldCentricSupplier;
+    brakeSupplier = () -> false;
+
+    driveWithHeading.HeadingController.setPID(2.5, 0.0, 0.0);
+    driveWithHeading.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+  }
+
+  /**
+   * @param xSupplier supplier for forward velocity.
+   * @param ySupplier supplier for sideways velocity.
+   * @param rotationSupplier supplier for angular velocity.
+   * @param fieldCentricSupplier supplier for field centric control.
+   * @param brakeSupplier supplier for brake control.
+   */
+  public DefaultDriveCommand(
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      DoubleSupplier rotationSupplier,
+      BooleanSupplier fieldCentricSupplier,
+      BooleanSupplier brakeSupplier) {
+
+    this.xSupplier = xSupplier;
+    this.ySupplier = ySupplier;
+    this.rotationSupplier = rotationSupplier;
+    this.fieldCentricSupplier = fieldCentricSupplier;
+    this.brakeSupplier = brakeSupplier;
 
     driveWithHeading.HeadingController.setPID(2.5, 0.0, 0.0);
     driveWithHeading.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
@@ -133,12 +163,23 @@ public class DefaultDriveCommand implements CommandBase {
   }
 
   /**
+   * Gets weather the robot is being braked or not.
+   *
+   * @return true if braked, false if not
+   */
+  protected boolean getBrake() {
+    return brakeSupplier.getAsBoolean();
+  }
+
+  /**
    * Gets the swerve request based on the current control mode.
    *
    * @return the swerve request
    */
   protected SwerveRequest getSwerveRequest() {
-    if (getFieldCentric()) {
+    if (getBrake()) {
+      return brake;
+    } else if (getFieldCentric()) {
       return driveNoHeading
           .withVelocityX(getX() * maxSpeed)
           .withVelocityY(getY() * maxSpeed)

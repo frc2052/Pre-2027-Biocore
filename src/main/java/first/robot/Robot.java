@@ -4,6 +4,9 @@
 
 package first.robot;
 
+import static org.wpilib.units.Units.Milliseconds;
+import static org.wpilib.units.Units.Seconds;
+
 import com.team2052.lib.mechanisms.PeriodicMechanism;
 import com.team2052.lib.util.RobotInfo;
 import first.robot.mechanisms.drive.DrivetrainMechanism;
@@ -11,6 +14,7 @@ import first.robot.utils.FieldConstants;
 import org.littletonrobotics.junction.LoggedOpModeRobot;
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.DriverStationDisplay;
+import org.wpilib.driverstation.DriverStationErrors;
 import org.wpilib.fields.Fields;
 import org.wpilib.system.Timer;
 
@@ -90,5 +94,14 @@ public class Robot extends LoggedOpModeRobot {
     double periodicStopTime = Timer.getMonotonicTimestamp();
 
     Logger.recordOutput("Periodic Loop Timing (ms)", (periodicStartTime - periodicStopTime) * 1000);
+    if (periodicStopTime - periodicStartTime > Constants.MAIN_LOOP_PERIOD.in(Seconds)) {
+      DriverStationErrors.reportWarning(
+          "Periodic Loop Timing ran for "
+              + (periodicStopTime - periodicStartTime) *1000
+              + " ms. The main loop period should only be "
+              + Constants.MAIN_LOOP_PERIOD.in(Milliseconds)
+              + " ms.",
+          false);
+    }
   }
 }

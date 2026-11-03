@@ -44,9 +44,11 @@ public class StandardDeviationCalculator {
     if (avgAmbiguity > 0.7)
       return VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
 
-    double distToCurrent = estimate.pose.getTranslation().getDistance(providedMT2pose.getTranslation());
+    double distToCurrent =
+        estimate.pose.getTranslation().getDistance(providedMT2pose.getTranslation());
     double angleDist =
-        Math.abs(estimate.pose.getRotation().getRadians() - providedMT2pose.getRotation().getRadians());
+        Math.abs(
+            estimate.pose.getRotation().getRadians() - providedMT2pose.getRotation().getRadians());
 
     double distSTD = distToCurrent < 1 ? Math.pow(distToCurrent, 2) : Double.MAX_VALUE;
     double angleSTD =

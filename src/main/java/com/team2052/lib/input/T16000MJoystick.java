@@ -1,6 +1,7 @@
 package com.team2052.lib.input;
 
 import org.wpilib.command3.Trigger;
+import org.wpilib.driverstation.POVDirection;
 
 public class T16000MJoystick extends JoinedCommandJoystick {
   public T16000MJoystick(int port) {
@@ -89,5 +90,38 @@ public class T16000MJoystick extends JoinedCommandJoystick {
 
   public double getSlider() {
     return getRawAxis(3);
+  }
+
+  // --- POV ---
+  public Trigger povUp() {
+    return button(POVDirection.UP);
+  }
+
+  public Trigger povDown() {
+    return button(POVDirection.DOWN);
+  }
+
+  public Trigger povLeft() {
+    return button(POVDirection.LEFT);
+  }
+
+  public Trigger povRight() {
+    return button(POVDirection.RIGHT);
+  }
+
+  public Trigger povUpLeft() {
+    return button(POVDirection.UP_LEFT);
+  }
+
+  public Trigger povUpRight() {
+    return button(POVDirection.UP_RIGHT);
+  }
+
+  public Trigger povDownLeft() {
+    return button(POVDirection.DOWN_LEFT);
+  }
+
+  public Trigger povDownRight() {
+    return button(POVDirection.DOWN_RIGHT);
   }
 }

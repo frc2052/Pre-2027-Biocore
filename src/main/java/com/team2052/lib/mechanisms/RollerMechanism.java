@@ -268,11 +268,11 @@ public abstract class RollerMechanism extends PeriodicMechanism {
    *     otherwise
    */
   public boolean isAtVelocity(AngularVelocity goalVelocity, AngularVelocity margin) {
-    System.out.println(
-        "shooter param v:"
-            + getVelocity().in(RotationsPerSecond)
-            + " g: "
-            + goalVelocity.in(RotationsPerSecond));
+    // System.out.println(
+    //     "shooter param v:"
+    //         + getVelocity().in(RotationsPerSecond)
+    //         + " g: "
+    //         + goalVelocity.in(RotationsPerSecond));
     return Math.abs(getVelocity().in(RotationsPerSecond) - goalVelocity.in(RotationsPerSecond))
         < margin.in(RotationsPerSecond);
   }

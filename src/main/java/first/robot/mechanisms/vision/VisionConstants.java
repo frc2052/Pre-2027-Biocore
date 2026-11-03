@@ -1,15 +1,17 @@
 package first.robot.mechanisms.vision;
 
 import com.team2052.lib.vision.limelight.LimelightCamera.LimelightConstants;
-import com.team2052.lib.vision.questnav.QuestNavConstants;
+import com.team2052.lib.vision.questnav.QuestNavConfig;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Transform3d;
 
 public class VisionConstants {
 
-  public static final QuestNavConstants QUEST_NAV_CONSTANTS = new QuestNavConstants();
+  public static final QuestNavConfig QUEST_NAV_CONSTANTS = new QuestNavConfig();
   public static final LimelightConstants LEFT_LIMELIGHT_CONSTANTS = new LimelightConstants();
   public static final LimelightConstants RIGHT_LIMELIGHT_CONSTANTS = new LimelightConstants();
+  public static final double MT_ONE_XY_STDDEV_COEFFICIENT = 0.1;
+  public static final double MT_ONE_ANGLE_STDDEV_COEFFICIENT = 20 * Math.PI / 180;
 
   static {
     QUEST_NAV_CONSTANTS.name = "Vision Mechanism";

@@ -4,6 +4,7 @@ import static org.wpilib.units.Units.Milliseconds;
 import static org.wpilib.units.Units.Seconds;
 
 import com.team2052.lib.estimators.PositionEstimator.PoseMeasurement;
+import com.team2052.lib.vision.StandardDeviationCalculator;
 import com.team2052.lib.vision.limelight.LimelightCamera;
 import com.team2052.lib.vision.limelight.LimelightHelpers.PoseEstimate;
 import com.team2052.lib.vision.questnav.QuestNavMechanism;
@@ -11,9 +12,12 @@ import first.robot.RobotState;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.math.linalg.Vector;
+import org.wpilib.math.numbers.N3;
 import org.wpilib.system.Timer;
 import org.wpilib.units.measure.Time;
 import org.wpilib.util.Pair;
@@ -71,6 +75,38 @@ public class VisionMechanism extends QuestNavMechanism {
   @Override
   public void loggingPeriodic() {
     super.loggingPeriodic();
+
+    if (!isLeftObjDetect) {
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Left Limelight/MT 1 Pose", lastLeftMeasurement.getFirst().pose);
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Left Limelight/MT 1 StdDev",
+          lastLeftMeasurement.getFirst().poseStdDev);
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Left Limelight/MT 2 Pose", lastLeftMeasurement.getSecond().pose);
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Left Limelight/MT 2 StdDev",
+          lastLeftMeasurement.getSecond().poseStdDev);
+    }
+
+    if (!isRightObjDetect) {
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Right Limelight/MT 1 Pose", lastRightMeasurement.getFirst().pose);
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Right Limelight/MT 1 StdDev",
+          lastRightMeasurement.getFirst().poseStdDev);
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Right Limelight/MT 2 Pose",
+          lastRightMeasurement.getSecond().pose);
+      Logger.recordOutput(
+          "Mechanism/" + name + "/Right Limelight/MT 2 StdDev",
+          lastRightMeasurement.getSecond().poseStdDev);
+    }
+
+    Logger.recordOutput(
+        "Mechanism/" + name + "/Left Limelight/Is Object Detection", isLeftObjDetect);
+    Logger.recordOutput(
+        "Mechanism/" + name + "/Right Limelight/Is Object Detection", isRightObjDetect);
   }
 
   public void setLeftToObjectDetection() {
@@ -119,18 +155,27 @@ public class VisionMechanism extends QuestNavMechanism {
 
     Time timestamp = Seconds.of(Timer.getMonotonicTimestamp());
 
+    Vector<N3> mtOneStddev =
+        StandardDeviationCalculator.getMegaTagOneStdDev(
+            VisionConstants.MT_ONE_XY_STDDEV_COEFFICIENT,
+            VisionConstants.MT_ONE_ANGLE_STDDEV_COEFFICIENT,
+            mtOnePose,
+            mtTwoPose.pose,
+            VecBuilder.fill(stddevs[0], stddevs[1], stddevs[5]));
+
+    Vector<N3> mtTwoStddev =
+        StandardDeviationCalculator.getMegaTagTwoStdDev(
+            VisionConstants.MT_ONE_XY_STDDEV_COEFFICIENT,
+            mtTwoPose,
+            VecBuilder.fill(stddevs[6], stddevs[7], stddevs[11]),
+            mtOneStddev.get(2));
+
     PoseMeasurement mtOneMeasure =
         new PoseMeasurement(
-            mtOnePose.pose,
-            VecBuilder.fill(stddevs[0], stddevs[1], stddevs[5]),
-            Milliseconds.of(mtOnePose.latency),
-            timestamp);
+            mtOnePose.pose, mtOneStddev, Milliseconds.of(mtOnePose.latency), timestamp);
     PoseMeasurement mtTwoMeasure =
         new PoseMeasurement(
-            mtTwoPose.pose,
-            VecBuilder.fill(stddevs[6], stddevs[7], stddevs[11]),
-            Milliseconds.of(mtTwoPose.latency),
-            timestamp);
+            mtTwoPose.pose, mtTwoStddev, Milliseconds.of(mtTwoPose.latency), timestamp);
 
     return new Pair<>(mtOneMeasure, mtTwoMeasure);
   }

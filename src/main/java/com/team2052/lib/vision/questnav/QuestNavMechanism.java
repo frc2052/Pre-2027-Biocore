@@ -2,27 +2,33 @@ package com.team2052.lib.vision.questnav;
 
 import static org.wpilib.units.Units.*;
 
-import org.littletonrobotics.junction.Logger;
+import java.util.Optional;
 
 import com.questnav.QuestNav;
 import com.team2052.lib.commands.CommandBuilder;
+import com.team2052.lib.estimators.PositionEstimator.PoseMeasurement;
 import com.team2052.lib.mechanisms.PeriodicMechanism;
+import com.team2052.lib.vision.StandardDeviationCalculator;
+
 import lombok.Getter;
+import org.littletonrobotics.junction.Logger;
 import org.wpilib.command3.Trigger;
 import org.wpilib.driverstation.DriverStationDisplay;
 import org.wpilib.driverstation.DriverStationErrors;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.numbers.N3;
 import org.wpilib.units.measure.Time;
+import org.wpilib.util.Pair;
 
 public class QuestNavMechanism extends PeriodicMechanism {
 
   protected final QuestNav quest = new QuestNav();
-  protected final QuestNavConstants constants;
+  protected final QuestNavConfig constants;
 
   @Getter private QuestState lastState = new QuestState();
 
-  public QuestNavMechanism(QuestNavConstants constants) {
+  public QuestNavMechanism(QuestNavConfig constants) {
     super(constants.name);
     this.constants = constants;
     quest.setPose(new Pose3d().transformBy(constants.questPose));
