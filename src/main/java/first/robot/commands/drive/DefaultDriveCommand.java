@@ -18,7 +18,7 @@ import java.util.function.DoubleSupplier;
 import org.wpilib.command3.Command;
 import org.wpilib.math.util.MathUtil;
 
-public class DefaultDriveCommand implements CommandBase {
+public class DefaultDriveCommand extends CommandBase {
 
   protected final DrivetrainMechanism drivetrain = DrivetrainMechanism.getInstance();
 

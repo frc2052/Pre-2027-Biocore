@@ -136,6 +136,17 @@ public final class Vector2d
   }
 
   /**
+   * Creates a new Vector2d from a start and end point. Is the translation from the start point to
+   * the end point.
+   *
+   * @param start The start point.
+   * @param end The end point.
+   */
+  public Vector2d(Translation2d start, Translation2d end) {
+    this.vector = end.minus(start);
+  }
+
+  /**
    * Returns the vector as a Translation2d.
    *
    * @return The vector as a Translation2d.
@@ -144,6 +155,11 @@ public final class Vector2d
     return vector;
   }
 
+  /**
+   * Returns the vector as a Transform2d.
+   *
+   * @return The vector as a Transform2d.
+   */
   public Transform2d toTransform2d() {
     return new Transform2d(vector, new Rotation2d());
   }

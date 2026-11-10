@@ -97,7 +97,7 @@ public class Robot extends LoggedOpModeRobot {
     if (periodicStopTime - periodicStartTime > Constants.MAIN_LOOP_PERIOD.in(Seconds)) {
       DriverStationErrors.reportWarning(
           "Periodic Loop Timing ran for "
-              + (periodicStopTime - periodicStartTime) *1000
+              + (periodicStopTime - periodicStartTime) * 1000
               + " ms. The main loop period should only be "
               + Constants.MAIN_LOOP_PERIOD.in(Milliseconds)
               + " ms.",

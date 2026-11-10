@@ -143,4 +143,33 @@ public class CommandBuilder {
         },
         "Empty Running Command");
   }
+
+  /**
+   * Creates a command that runs the given command and then runs the given runnable when the command ends or is canceled.
+   * 
+   * @param command The command to run.
+   * @param onEnd The runnable to run when the command ends or is canceled.
+   * @return A command that runs the given command and then runs the given runnable when the command ends or is canceled.
+   */
+  public static NeedsNameBuilderStage runEnd(Command command, Runnable onEnd) {
+    return Command.requiring(command.requirements())
+        .executing(
+            coroutine -> {
+              coroutine.await(command);
+              onEnd.run();
+            })
+        .whenCanceled(onEnd);
+  }
+
+  /**
+   * Creates a command that runs the given command and then runs the given runnable when the command ends or is canceled.
+   * 
+   * @param command The command to run.
+   * @param onEnd The runnable to run when the command ends or is canceled.
+   * @param name The name of the command.
+   * @return A command that runs the given command and then runs the given runnable when the command ends or is canceled.
+   */
+  public static Command runEnd(Command command, Runnable onEnd, String name) {
+    return runEnd(command, onEnd).named(name);
+  }
 }
