@@ -2,13 +2,11 @@ package com.team2052.lib.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.wpilib.command3.Command;
 import org.wpilib.command3.Mechanism;
 import org.wpilib.command3.Scheduler;
-
-import lombok.Getter;
-import lombok.Setter;
 
 public abstract class CommandBase {
 
@@ -23,18 +21,23 @@ public abstract class CommandBase {
    * @return the created {@link Command}
    */
   public Command create() {
-    return Command.requiring(requirements).executing(coroutine -> {
-      initialize();
-      while (!isFinished()) {
-        execute();
-        coroutine.yield();
-      }
-      end();
-    }).whenCanceled(() -> end()).named(name);
-  };
+    return Command.requiring(requirements)
+        .executing(
+            coroutine -> {
+              initialize();
+              while (!isFinished()) {
+                execute();
+                coroutine.yield();
+              }
+              end();
+            })
+        .whenCanceled(() -> end())
+        .named(name);
+  }
+  ;
 
   /** Creates and then schedules the command. Calls {@link CommandBase#create()} for the command. */
-  public void schedule() {
+  public final void schedule() {
     Scheduler.getDefault().schedule(create());
   }
 
@@ -45,7 +48,9 @@ public abstract class CommandBase {
   public void execute() {}
 
   /**
-   * Returns whether the command should finish. If this returns true, the command will end and {@link CommandBase#end()} will be called.
+   * Returns whether the command should finish. If this returns true, the command will end and
+   * {@link CommandBase#end()} will be called.
+   *
    * @return true if the command should finish, false otherwise
    */
   public boolean isFinished() {
@@ -61,7 +66,7 @@ public abstract class CommandBase {
    *
    * @param mechanism the mechanism to add as a requirement
    */
-  public void addRequirement(Mechanism mechanism) {
+  public final void addRequirement(Mechanism mechanism) {
     requirements.add(mechanism);
   }
 
@@ -71,10 +76,9 @@ public abstract class CommandBase {
    *
    * @param mechanisms the mechanisms to add as requirements
    */
-  public void addRequirements(Mechanism... mechanisms) {
+  public final void addRequirements(Mechanism... mechanisms) {
     for (Mechanism mechanism : mechanisms) {
       addRequirement(mechanism);
     }
   }
-
 }

@@ -34,6 +34,7 @@ public class Robot extends LoggedOpModeRobot {
    * initialization code.
    */
   public Robot() {
+    super(Constants.MAIN_LOOP_PERIOD.in(Seconds));
     currentOpMode = super.getOpMode();
     Fields loadingConstants = FieldConstants.FIELD;
     DriverStationDisplay.addKeyedLine(
@@ -68,6 +69,18 @@ public class Robot extends LoggedOpModeRobot {
    */
   @Override
   public void nonePeriodic() {}
+
+  /** Function called once when the robot becomes disabled. */
+  @Override
+  public void disabledInit() {}
+
+  /** Function called periodically while the robot is disabled. */
+  @Override
+  public void disabledPeriodic() {}
+
+  /** Function called once when the robot exits disabled state. */
+  @Override
+  public void disabledExit() {}
 
   @Override
   public void robotPeriodic() {

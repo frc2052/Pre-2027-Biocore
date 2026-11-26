@@ -1,5 +1,6 @@
 package com.team2052.lib.regions;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 import org.wpilib.command3.Trigger;
 import org.wpilib.math.geometry.Translation2d;
@@ -87,6 +88,15 @@ public abstract interface Region {
   }
 
   /**
+   * Creates a function that checks if a given point is inside the region.
+   *
+   * @return A function that takes a point and returns true if it's inside the region.
+   */
+  public default Function<Translation2d, Boolean> asFunction() {
+    return this::isPointInRegion;
+  }
+
+  /**
    * Gets the inverse of the given region.
    *
    * @param region The region to get the inverse of.
@@ -139,5 +149,15 @@ public abstract interface Region {
     }
 
     return result;
+  }
+
+  /**
+   * Creates a region from a function that checks if a point is inside the region.
+   * 
+   * @param function The function that checks if a point is inside the region.
+   * @return The region created from the function.
+   */
+  public static Region fromFunction(Function<Translation2d, Boolean> function) {
+    return function::apply;
   }
 }

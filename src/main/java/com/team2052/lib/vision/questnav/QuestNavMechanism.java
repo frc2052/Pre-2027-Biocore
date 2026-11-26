@@ -43,7 +43,7 @@ public class QuestNavMechanism extends PeriodicMechanism {
         CommandBuilder.instant(
             () ->
                 DriverStationErrors.reportWarning("Quest Battery Less than " + cutoff + "%", false),
-            name + " Battery Less Than " + cutoff));
+            name + " Quest Battery Less Than " + cutoff));
   }
 
   public Pose3d questPoseToRobotPose(Pose3d pose) {
@@ -96,17 +96,17 @@ public class QuestNavMechanism extends PeriodicMechanism {
 
   @Override
   public void loggingPeriodic() {
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Is Connected", lastState.isConnected);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Is Tracking", lastState.isTracking);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Robot Pose", lastState.robotPose);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Quest Pose", lastState.questPose);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Flat Robot Pose", lastState.flatRobotPose);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Data Timestamp", lastState.dataTimestamp);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Latency", lastState.latency);
-    Logger.recordOutput("Mechanism/" + name + "/Quest/Battery Percent", lastState.batteryPct);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Is Connected", lastState.isConnected);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Is Tracking", lastState.isTracking);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Robot Pose", lastState.robotPose);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Quest Pose", lastState.questPose);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Flat Robot Pose", lastState.flatRobotPose);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Data Timestamp", lastState.dataTimestamp);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Latency", lastState.latency);
+    Logger.recordOutput("Mechanisms/" + name + "/Quest/Battery Percent", lastState.batteryPct);
   }
 
-  public class QuestState {
+  public static class QuestState {
     public Pose3d robotPose = new Pose3d();
     public Pose2d flatRobotPose = new Pose2d();
     public Pose3d questPose = new Pose3d();

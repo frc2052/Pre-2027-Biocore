@@ -10,10 +10,15 @@ import org.wpilib.units.measure.*;
 /**
  * PhysicsHelpers is a class that helps define and calculate physical relationships
  *
- * <p>## Definitions - <b>Angular Velocity</b>: The velocity of a point rotating around another. -
- * <b>Moving Point</b>: A point in space that is moving independently of its origin. - <b>Rotational
- * Offset</b>: A point in space that is rotating around its origin. - <b>Velocity</b>: The speed of
- * some point in space with a direction.
+ * <p>## Definitions
+ *
+ * <p>- <b>Angular Velocity</b>: The velocity of a point rotating around another.
+ *
+ * <p>- <b>Moving Point</b>: A point in space that is moving independently of its origin.
+ *
+ * <p>- <b>Rotational Offset</b>: A point in space that is rotating around its origin.
+ *
+ * <p>- <b>Velocity</b>: The speed of some point in space with a direction.
  */
 public class PhysicsHelpers {
 
@@ -202,5 +207,37 @@ public class PhysicsHelpers {
 
     return RadiansPerSecond.of(
         linearTangentialVelocity.in(MetersPerSecond) / rotationalOffset.getNorm());
+  }
+
+  // Linear Kinematics
+
+  public static Distance getDisplacement(LinearAcceleration constantAcceleration, LinearVelocity initialVelocity, Time deltaT) {
+    return constantAcceleration.times(deltaT.times(0.5)).times(deltaT).plus(initialVelocity.times(deltaT));
+  }
+
+  public static Distance getDistance(LinearAcceleration constantAcceleration, LinearVelocity initialVelocity, Distance initialPosition, Time deltaT) {
+    return getDisplacement(constantAcceleration, initialVelocity, deltaT).plus(initialPosition);
+  }
+
+  public static LinearVelocity getFinalVelocity(LinearAcceleration constantAcceleration, LinearVelocity initialVelocity, Time deltaT) {
+    return getFinalVelocity(constantAcceleration, deltaT).plus(initialVelocity);
+  }
+
+  public static LinearVelocity getFinalVelocity(LinearAcceleration constantAcceleration, Time deltaT) {
+    return constantAcceleration.times(deltaT);
+  }
+
+  public static LinearVelocity getFinalVelocity(LinearAcceleration constantAcceleration, Distance displacement) {
+    return MetersPerSecond.of(Math.sqrt(2 * constantAcceleration.in(MetersPerSecondPerSecond) * displacement.in(Meters)));
+  }
+
+  public static LinearVelocity getFinalVelocity(LinearAcceleration constantAcceleration, Distance displacement, LinearVelocity initialVelocity) {
+    return MetersPerSecond.of(Math.sqrt(2 * constantAcceleration.in(MetersPerSecondPerSecond) * displacement.in(Meters) + Math.pow(initialVelocity.in(MetersPerSecond), 2)));
+  }
+
+  // Calculus
+
+  public static Vector2d integrateOverTime(Vector2d constantVector, Time time) {
+    return constantVector.times(time.in(Seconds));
   }
 }

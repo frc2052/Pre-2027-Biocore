@@ -78,35 +78,35 @@ public class VisionMechanism extends QuestNavMechanism {
 
     if (!isLeftObjDetect) {
       Logger.recordOutput(
-          "Mechanism/" + name + "/Left Limelight/MT 1 Pose", lastLeftMeasurement.getFirst().pose);
+          "Mechanisms/" + name + "/Left Limelight/MT 1 Pose", lastLeftMeasurement.getFirst().pose);
       Logger.recordOutput(
-          "Mechanism/" + name + "/Left Limelight/MT 1 StdDev",
+          "Mechanisms/" + name + "/Left Limelight/MT 1 StdDev",
           lastLeftMeasurement.getFirst().poseStdDev);
       Logger.recordOutput(
-          "Mechanism/" + name + "/Left Limelight/MT 2 Pose", lastLeftMeasurement.getSecond().pose);
+          "Mechanisms/" + name + "/Left Limelight/MT 2 Pose", lastLeftMeasurement.getSecond().pose);
       Logger.recordOutput(
-          "Mechanism/" + name + "/Left Limelight/MT 2 StdDev",
+          "Mechanisms/" + name + "/Left Limelight/MT 2 StdDev",
           lastLeftMeasurement.getSecond().poseStdDev);
     }
 
     if (!isRightObjDetect) {
       Logger.recordOutput(
-          "Mechanism/" + name + "/Right Limelight/MT 1 Pose", lastRightMeasurement.getFirst().pose);
+          "Mechanisms/" + name + "/Right Limelight/MT 1 Pose", lastRightMeasurement.getFirst().pose);
       Logger.recordOutput(
-          "Mechanism/" + name + "/Right Limelight/MT 1 StdDev",
+          "Mechanisms/" + name + "/Right Limelight/MT 1 StdDev",
           lastRightMeasurement.getFirst().poseStdDev);
       Logger.recordOutput(
-          "Mechanism/" + name + "/Right Limelight/MT 2 Pose",
+          "Mechanisms/" + name + "/Right Limelight/MT 2 Pose",
           lastRightMeasurement.getSecond().pose);
       Logger.recordOutput(
-          "Mechanism/" + name + "/Right Limelight/MT 2 StdDev",
+          "Mechanisms/" + name + "/Right Limelight/MT 2 StdDev",
           lastRightMeasurement.getSecond().poseStdDev);
     }
 
     Logger.recordOutput(
-        "Mechanism/" + name + "/Left Limelight/Is Object Detection", isLeftObjDetect);
+        "Mechanisms/" + name + "/Left Limelight/Is Object Detection", isLeftObjDetect);
     Logger.recordOutput(
-        "Mechanism/" + name + "/Right Limelight/Is Object Detection", isRightObjDetect);
+        "Mechanisms/" + name + "/Right Limelight/Is Object Detection", isRightObjDetect);
   }
 
   public void setLeftToObjectDetection() {
